@@ -365,6 +365,7 @@
       renderRows(document.querySelector('#medecinTable tbody'), data.medecins || [], (row) => `
         <td>
           <select>
+          <optgroup label="Cardiologues">
             <option ${row.nom==="Dr Heurtebise"?'selected':''}>Dr Heurtebise</option>
 <option ${row.nom==="Dr Laporal"?'selected':''}>Dr Laporal</option>
 <option ${row.nom==="Dr Jnifene"?'selected':''}>Dr Jnifene</option>
