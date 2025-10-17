@@ -417,8 +417,61 @@
       // Régulateur
       renderRows(document.querySelector('#regulateurTable tbody'), data.regulateur || [], (row) => `
         <td><select>
-            <option ${row.nom==="Nom 1"?'selected':''}>Nom 1</option>
-            <option ${row.nom==="Nom 2"?'selected':''}>Nom 2</option>
+           <select id="ambulanceSelect">
+  <optgroup label="Ambu Bourges">
+    <option ${row.nom==="2000"?'selected':''}>2000</option>
+    <option ${row.nom==="Atlas"?'selected':''}>Atlas</option>
+    <option ${row.nom==="Avaricum"?'selected':''}>Avaricum</option>
+    <option ${row.nom==="Ducreux"?'selected':''}>Ducreux</option>
+    <option ${row.nom==="JHL"?'selected':''}>JHL</option>
+    <option ${row.nom==="Marquet"?'selected':''}>Marquet</option>
+    <option ${row.nom==="Mazer"?'selected':''}>Mazer</option>
+    <option ${row.nom==="Mehun ambulances"?'selected':''}>Mehun ambulances</option>
+    <option ${row.nom==="Millérioux"?'selected':''}>Millérioux</option>
+    <option ${row.nom==="Pinson"?'selected':''}>Pinson</option>
+    <option ${row.nom==="VMA"?'selected':''}>VMA</option>
+  </optgroup>
+
+  <optgroup label="Ambu Vz">
+    <option ${row.nom==="André"?'selected':''}>André</option>
+    <option ${row.nom==="Mehun ambulances"?'selected':''}>Mehun ambulances</option>
+    <option ${row.nom==="Petitjean"?'selected':''}>Petitjean</option>
+    <option ${row.nom==="St Exupéry"?'selected':''}>St Exupéry</option>
+  </optgroup>
+
+  <optgroup label="Ambu St Amand">
+    <option ${row.nom==="Beuze Prev"?'selected':''}>Beuze Prev</option>
+    <option ${row.nom==="Castellois"?'selected':''}>Castellois</option>
+    <option ${row.nom==="Ducreux"?'selected':''}>Ducreux</option>
+    <option ${row.nom==="Guillemin"?'selected':''}>Guillemin</option>
+    <option ${row.nom==="Lignières"?'selected':''}>Lignières</option>
+    <option ${row.nom==="Pasquet"?'selected':''}>Pasquet</option>
+    <option ${row.nom==="St Amand"?'selected':''}>St Amand</option>
+    <option ${row.nom==="Savignat"?'selected':''}>Savignat</option>
+  </optgroup>
+
+  <optgroup label="Ambu Nord">
+    <option ${row.nom==="JHL"?'selected':''}>JHL</option>
+    <option ${row.nom==="Marquet"?'selected':''}>Marquet</option>
+    <option ${row.nom==="Millérioux"?'selected':''}>Millérioux</option>
+  </optgroup>
+
+  <optgroup label="Ambu Est">
+    <option ${row.nom==="Auger"?'selected':''}>Auger</option>
+    <option ${row.nom==="Bengy"?'selected':''}>Bengy</option>
+    <option ${row.nom==="Vallée de l'Aubois"?'selected':''}>Vallée de l'Aubois</option>
+  </optgroup>
+
+  <optgroup label="Ambu Sud">
+    <option ${row.nom==="Beuze Préveranges"?'selected':''}>Beuze Préveranges</option>
+    <option ${row.nom==="Castellois"?'selected':''}>Castellois</option>
+    <option ${row.nom==="Ducreux"?'selected':''}>Ducreux</option>
+    <option ${row.nom==="Guillemin"?'selected':''}>Guillemin</option>
+    <option ${row.nom==="Lignières"?'selected':''}>Lignières</option>
+    <option ${row.nom==="Pasquet"?'selected':''}>Pasquet</option>
+  </optgroup>
+</select>
+
           </select></td>
         <td><input type="text" placeholder="DECT" value="${row.dect||''}" /></td>
         <td><button onclick="deleteRow(this)">Supprimer</button></td>
