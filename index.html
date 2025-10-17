@@ -362,11 +362,8 @@
       const data = snapshotVal || {};
 
       // Médecins
-renderRows(
-  document.querySelector('#medecinTable tbody'),
-  data.medecins || [],
-  (row = {}) => `
-    <td>
+renderRows(document.querySelector('#regulateurTable tbody'), data.regulateur || [], (row) => `
+<td><select>
       <select class="medecin-nom">
         <optgroup label="Cardiologues">
           <option ${row.nom==="Dr Heurtebise"?'selected':''}>Dr Heurtebise</option>
