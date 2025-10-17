@@ -549,8 +549,25 @@ renderRows(document.querySelector('#regulateurTable tbody'), data.regulateur || 
       // Administrateur de garde
       renderRows(document.querySelector('#administrateurTable tbody'), data.administrateur || [], (row) => `
         <td><select>
-            <option ${row.nom==="Nom 1"?'selected':''}>Nom 1</option>
-            <option ${row.nom==="Nom 2"?'selected':''}>Nom 2</option>
+<option ${row.nom==="Apert Mme"?'selected':''}>Apert Mme</option>
+<option ${row.nom==="Aulibert Mme"?'selected':''}>Aulibert Mme</option>
+<option ${row.nom==="Benoist M."?'selected':''}>Benoist M.</option>
+<option ${row.nom==="Descouts Mme"?'selected':''}>Descouts Mme</option>
+<option ${row.nom==="Dhorbait Mme"?'selected':''}>Dhorbait Mme</option>
+<option ${row.nom==="Fauquembergue M."?'selected':''}>Fauquembergue M.</option>
+<option ${row.nom==="Halin M."?'selected':''}>Halin M.</option>
+<option ${row.nom==="Hunault M."?'selected':''}>Hunault M.</option>
+<option ${row.nom==="Le Heiget M."?'selected':''}>Le Heiget M.</option>
+<option ${row.nom==="Le tarnec Mme"?'selected':''}>Le tarnec Mme</option>
+<option ${row.nom==="Mahut M."?'selected':''}>Mahut M.</option>
+<option ${row.nom==="Mercier M."?'selected':''}>Mercier M.</option>
+<option ${row.nom==="Osten Mme"?'selected':''}>Osten Mme</option>
+<option ${row.nom==="Paoletti - Bes Mme"?'selected':''}>Paoletti - Bes Mme</option>
+<option ${row.nom==="Perier Mme"?'selected':''}>Perier Mme</option>
+<option ${row.nom==="Tomatis Mme"?'selected':''}>Tomatis Mme</option>
+<option ${row.nom==="Vigneron Mme"?'selected':''}>Vigneron Mme</option>
+<option ${row.nom==="Vo Dinh M."?'selected':''}>Vo Dinh M.</option>
+
           </select></td>
         <td><input type="text" placeholder="DECT" value="${row.dect||''}" /></td>
         <td><button onclick="deleteRow(this)">Supprimer</button></td>
