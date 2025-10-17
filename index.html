@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tableau de Garde - Hôpital (Firebase)</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; }
+    .header { background: #ff7f50; color: #fff; padding: 20px; text-align: center; font-size: 24px; }
+    .date-subtitle { font-size: 18px; margin-top: 8px; font-weight: normal; color: #fff; }
+    .container { display: grid; grid-template-columns: 1fr 2fr; gap: 20px; padding: 20px; }
+    .left-container { display: flex; flex-direction: column; gap: 20px; }
+    .right-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .table-container { background: #fff; border: 1px solid #ddd; border-radius: 10px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,.1); }
+    .table-container table { width: 100%; border-collapse: collapse; }
+    .table-container th, .table-container td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+    .table-container th { background: #ff7f50; color: #fff; }
+    .section-header { font-size: 18px; margin-bottom: 10px; color: #ff7f50; font-weight: bold; text-align: center; }
+    button { background: #333; color: #fff; padding: 10px; margin-top: 10px; border: none; border-radius: 5px; cursor: pointer; }
+    button:hover { background: #ff7f50; }
+    .smur-primaire th { background: #ffa07a; }
+    .smur-secondaire th { background: #87cefa; }
+    .regulateur th { background: #32cd32; }
+    .ambulance-garde th { background: #ff6347; }
+    .ambulance-sortie th { background: #dda0dd; }
+    .pharmacie-garde th { background: #ffd700; }
+    .administrateur-garde th { background: #8a2be2; }
+    .sync-bar { position: sticky; top: 0; background: #fff; border-bottom: 1px solid #eee; padding: 8px 12px; font-size: 14px; display: flex; gap: 12px; align-items: center; justify-content: center; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+    .dot.idle { background: #bbb; }
+    .dot.saving { background: #f0ad4e; animation: pulse 1.2s infinite; }
+    .dot.online { background: #28a745; }
+    @keyframes pulse { 0%{ transform: scale(1);} 50%{ transform: scale(1.2);} 100%{ transform: scale(1);} }
+    .toolbar { display:flex; gap:8px; justify-content:center; margin: 10px 20px 0; }
+    .toolbar button.secondary { background:#666; }
+    .toolbar button.danger { background:#b00020; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    Tableau de Garde - Hôpital (Firebase)
+    <div id="date" class="date-subtitle"></div>
+  </div>
+
+  <div class="sync-bar">
+    <span class="dot idle" id="syncDot" title="État sync"></span>
+    <span id="syncText">Prêt</span>
+    <span id="lastSaved" style="opacity:.7"></span>
+  </div>
+
+  <div class="toolbar">
+    <button id="forceSaveBtn" class="secondary">💾 Enregistrer maintenant</button>
+    <button id="newDayBtn" class="secondary" title="Passe sur une nouvelle clé (date du jour)">📅 Nouvelle journée</button>
+    <button id="clearDayBtn" class="danger" title="Efface les données de la journée en cours">🧹 Vider la journée</button>
+    <span style="opacity:.7">Clé du jour : <strong id="dayKey"></strong></span>
+  </div>
+
+  <div class="container">
+    <!-- Colonne gauche : Médecins -->
+    <div class="left-container">
+      <div class="table-container">
+        <div class="section-header">Médecin</div>
+        <table id="medecinTable">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Service</th>
+              <th>DECT</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <select>
+                  <option>Dr. Dupont</option>
+                  <option>Dr. Martin</option>
+                  <option>Dr. Leroy</option>
+                  <option>Dr. Tissot</option>
+                </select>
+              </td>
+              <td>
+                <select>
+                  <option>Gynécologie</option>
+                  <option>Médecine Interne</option>
+                  <option>Radiologie</option>
+                  <option>Cardiologie</option>
+                </select>
+              </td>
+              <td><input type="text" placeholder="DECT" /></td>
+              <td><button onclick="deleteRow(this)">Supprimer</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <button onclick="addMedecinRow()">Ajouter une ligne Médecin</button>
+      </div>
+    </div>
+
+    <!-- Colonne droite : autres tableaux -->
+    <div class="right-container">
+      <!-- SMUR Primaire -->
+      <div class="table-container smur-primaire">
+        <div class="section-header">SMUR Primaire</div>
+        <table id="smurPrimaireTable">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>DECT</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <select>
+                  <option>Médecin</option>
+                  <option>Ambulancier</option>
+                </select>
+              </td>
+              <td><input type="text" placeholder="DECT" /></td>
+              <td><button onclick="deleteRow(this)">Supprimer</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <button onclick="addRow(this)">Ajouter une ligne</button>
+      </div>
+
+      <!-- SMUR Secondaire -->
+      <div class="table-container smur-secondaire">
+        <div class="section-header">SMUR Secondaire</div>
+        <table id="smurSecondaireTable">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>DECT</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <select>
+                  <option>Médecin</option>
+                  <option>Ambulancier</option>
+                </select>
+              </td>
+              <td><input type="text" placeholder="DECT" /></td>
+              <td><button onclick="deleteRow(this)">Supprimer</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <button onclick="addRow(this)">Ajouter une ligne</button>
+      </div>
+
+      <!-- Régulateur -->
+      <div class="table-container regulateur">
+        <div class="section-header">Régulateur</div>
+        <table id="regulateurTable">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>DECT</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><select><option>Nom 1</option><option>Nom 2</option></select></td>
+              <td><input type="text" placeholder="DECT" /></td>
+              <td><button onclick="deleteRow(this)">Supprimer</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <button onclick="addRow(this)">Ajouter une ligne</button>
+      </div>
+
+      <!-- Ambulance de Garde -->
+      <div class="table-container ambulance-garde">
+        <div class="section-header">Ambulance de Garde</div>
+        <table id="ambulanceGardeTable">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>DECT</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><select><option>Nom 1</option><option>Nom 2</option></select></td>
+              <td><input type="text" placeholder="DECT" /></td>
+              <td><button onclick="deleteRow(this)">Supprimer</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <button onclick="addRow(this)">Ajouter une ligne</button>
+      </div>
+
+      <!-- Ambulance de Sortie -->
+      <div class="table-container ambulance-sortie">
+        <div class="section-header">Ambulance de Sortie</div>
+        <table id="ambulanceSortieTable">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>DECT</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><select><option>Nom 1</option><option>Nom 2</option></select></td>
+              <td><input type="text" placeholder="DECT" /></td>
+              <td><button onclick="deleteRow(this)">Supprimer</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <button onclick="addRow(this)">Ajouter une ligne</button>
+      </div>
+
+      <!-- Pharmacie de Garde -->
+      <div class="table-container pharmacie-garde">
+        <div class="section-header">Pharmacie de Garde</div>
+        <table id="pharmacieTable">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Adresse</th>
+              <th>DECT</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="text" placeholder="Nom" /></td>
+              <td><input type="text" placeholder="Adresse" /></td>
+              <td><input type="text" placeholder="DECT" /></td>
+              <td><button onclick="deleteRow(this)">Supprimer</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <button onclick="addPharmacieRow()">Ajouter une ligne</button>
+      </div>
+
+      <!-- Administrateur de Garde -->
+      <div class="table-container administrateur-garde">
+        <div class="section-header">Administrateur de Garde</div>
+        <table id="administrateurTable">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>DECT</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><select><option>Nom 1</option><option>Nom 2</option></select></td>
+              <td><input type="text" placeholder="DECT" /></td>
+              <td><button onclick="deleteRow(this)">Supprimer</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <button onclick="addRow(this)">Ajouter une ligne</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- App + Realtime Database -->
+  <script type="module">
+    // ====== Firebase (CDN, v10+) ======
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+    // ⚠️ Remplace par ta configuration de projet Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyCSZGNjhaR8mKDlz5OUY3sUX6Ivyi27VAw",
+  authDomain: "tableau-de-garde.firebaseapp.com",
+  projectId: "tableau-de-garde",
+  storageBucket: "https://tableau-de-garde-default-rtdb.europe-west1.firebasedatabase.app",
+  messagingSenderId: "857143707753",
+  appId: "1:857143707753:web:5772e01b2c00d09781baf8",
+  measurementId: "G-XMX5NQ2SSC"
+
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db  = getDatabase(app);
+
+    // ====== Helpers ======
+    const $ = (sel) => document.querySelector(sel);
+    const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+
+    const dayKeyEl = document.getElementById('dayKey');
+    const syncDot  = document.getElementById('syncDot');
+    const syncText = document.getElementById('syncText');
+    const lastSaved= document.getElementById('lastSaved');
+
+    const todayKey = () => new Date().toISOString().slice(0,10); // YYYY-MM-DD
+    let currentKey = localStorage.getItem('gardeDayKey') || todayKey();
+    dayKeyEl.textContent = currentKey;
+
+    const dataRef = () => ref(db, `tableauGarde/${currentKey}`);
+
+    const setSaving = (isSaving) => {
+      if (isSaving) {
+        syncDot.classList.remove('idle','online');
+        syncDot.classList.add('saving');
+        syncText.textContent = 'Sauvegarde…';
+      } else {
+        syncDot.classList.remove('idle','saving');
+        syncDot.classList.add('online');
+        syncText.textContent = 'Synchronisé';
+        lastSaved.textContent = `• Dernier enregistrement: ${new Date().toLocaleTimeString('fr-FR')}`;
+      }
+    };
+
+    // ====== Serialization ======
+    function readTableRows(tableId, mapRow) {
+      const tbody = document.getElementById(tableId).querySelector('tbody');
+      return Array.from(tbody.rows).map(mapRow);
+    }
+
+    function serializeAll() {
+      return {
+        medecins: readTableRows('medecinTable', (tr) => ({
+          nom: tr.cells[0].querySelector('select')?.value || '',
+          service: tr.cells[1].querySelector('select')?.value || '',
+          dect: tr.cells[2].querySelector('input')?.value || ''
+        })),
+        smurPrimaire: readTableRows('smurPrimaireTable', (tr) => ({
+          nom: tr.cells[0].querySelector('select')?.value || '',
+          dect: tr.cells[1].querySelector('input')?.value || ''
+        })),
+        smurSecondaire: readTableRows('smurSecondaireTable', (tr) => ({
+          nom: tr.cells[0].querySelector('select')?.value || '',
+          dect: tr.cells[1].querySelector('input')?.value || ''
+        })),
+        regulateur: readTableRows('regulateurTable', (tr) => ({
+          nom: tr.cells[0].querySelector('select')?.value || '',
+          dect: tr.cells[1].querySelector('input')?.value || ''
+        })),
+        ambulanceGarde: readTableRows('ambulanceGardeTable', (tr) => ({
+          nom: tr.cells[0].querySelector('select')?.value || '',
+          dect: tr.cells[1].querySelector('input')?.value || ''
+        })),
+        ambulanceSortie: readTableRows('ambulanceSortieTable', (tr) => ({
+          nom: tr.cells[0].querySelector('select')?.value || '',
+          dect: tr.cells[1].querySelector('input')?.value || ''
+        })),
+        pharmacie: readTableRows('pharmacieTable', (tr) => ({
+          nom: tr.cells[0].querySelector('input')?.value || '',
+          adresse: tr.cells[1].querySelector('input')?.value || '',
+          dect: tr.cells[2].querySelector('input')?.value || ''
+        })),
+        administrateur: readTableRows('administrateurTable', (tr) => ({
+          nom: tr.cells[0].querySelector('select')?.value || '',
+          dect: tr.cells[1].querySelector('input')?.value || ''
+        }))
+      };
+    }
+
+    function renderRows(tbody, rows, renderCellHtmls) {
+      tbody.innerHTML = '';
+      rows.forEach((row) => {
+        const tr = tbody.insertRow();
+        tr.innerHTML = renderCellHtmls(row);
+      });
+    }
+function hydrateAll(snapshotVal) {
+  const data = snapshotVal || {};
+
+  // Médecins
+  renderRows(document.querySelector('#medecinTable tbody'), data.medecins || [], (row) => `
+    <td>
+      <select>
+        <option ${row.nom==="Dr. Dupont" ? "selected" : ""}>Dr. Dupont</option>
+        <option ${row.nom==="Dr. Martin" ? "selected" : ""}>Dr. Martin</option>
+        <option ${row.nom==="Dr. Leroy" ? "selected" : ""}>Dr. Leroy</option>
+        <option ${row.nom==="Dr. Tissot" ? "selected" : ""}>Dr. Tissot</option>
+        <option ${row.nom==="Dr. Didot" ? "selected" : ""}>Dr. Didot</option>
+        <option ${row.nom==="Dr. Hallet" ? "selected" : ""}>Dr. Hallet</option>
+        <option ${row.nom==="Dr. Déchery" ? "selected" : ""}>Dr. Déchery</option>
+        <option ${row.nom==="Dr. Jajolet" ? "selected" : ""}>Dr. Jajolet</option>
+        <option ${row.nom==="Dr. Ndiaye" ? "selected" : ""}>Dr. Ndiaye</option>
+        <option ${row.nom==="Dr. Parmond" ? "selected" : ""}>Dr. Parmond</option>
+        <option ${row.nom==="Dr. Alkouja" ? "selected" : ""}>Dr. Alkouja</option>
+        <option ${row.nom==="Dr. Dabbousi" ? "selected" : ""}>Dr. Dabbousi</option>
+        <option ${row.nom==="Dr. Faure" ? "selected" : ""}>Dr. Faure</option>
+        <option ${row.nom==="Dr. Combes" ? "selected" : ""}>Dr. Combes</option>
+        <option ${row.nom==="Dr. Easy" ? "selected" : ""}>Dr. Easy</option>
+        <option ${row.nom==="Dr. Dokoula" ? "selected" : ""}>Dr. Dokoula</option>
+        <option ${row.nom==="Dr. Profiriou" ? "selected" : ""}>Dr. Profiriou</option>
+        <option ${row.nom==="Dr. Phan" ? "selected" : ""}>Dr. Phan</option>
+        <option ${row.nom==="Dr. fanoréna" ? "selected" : ""}>Dr. fanoréna</option>
+        <option ${row.nom==="Dr. Hefte" ? "selected" : ""}>Dr. Hefte</option>
+        <option ${row.nom==="Dr. Lévy" ? "selected" : ""}>Dr. Lévy</option>
+        <option ${row.nom==="IMADIS" ? "selected" : ""}>IMADIS</option>
+      </select>
+    </td>
+    <td>
+      <select>
+        ${
+          ["Gynécologie","Médecine Interne","Radiologie","Cardiologie","Angio","Ophtalmologie","ORL","Urologie","Vasculaire ","Gynécologue","Médecine interne","Neuro-Vasculaire","Pédiatre","Radio/IRM"]
+          .map(s => '<option ' + (row.service===s ? 'selected' : '') + '>' + s + '</option>')
+          .join('')
+        }
+      </select>
+    </td>
+    <td><input type="text" placeholder="DECT" value="${row.dect || ''}"></td>
+    <td><button onclick="deleteRow(this)">Supprimer</button></td>
+  `);
+
+  // SMUR Primaire
+  renderRows(document.querySelector('#smurPrimaireTable tbody'), data.smurPrimaire || [], (row) => `
+    <td>
+      <select>
+        <option ${row.nom==="Médecin" ? "selected" : ""}>Médecin</option>
+        <option ${row.nom==="mika" ? "selected" : ""}>Mika</option>
+<option ${row.nom==="Laurent" ? "selected" : ""}>Laurent</option>
+      </select>
+ <select>
+        <option ${row.nom==="die" ? "selected" : ""}>ide</option>
+        <option ${row.nom==="mika" ? "selected" : ""}>Mika</option>
+<option ${row.nom==="Laurent" ? "selected" : ""}>Laurent</option>
+      </select>
+    </td>
+    <td><input type="text" placeholder="DECT" value="${row.dect || ''}"></td>
+    <td><button onclick="deleteRow(this)">Supprimer</button></td>
+  `);
+
+  // SMUR Secondaire
+  renderRows(document.querySelector('#smurSecondaireTable tbody'), data.smurSecondaire || [], (row) => `
+    <td>
+      <select>
+        <option ${row.nom==="Médecin" ? "selected" : ""}>Médecin</option>
+        <option ${row.nom==="Ambulancier" ? "selected" : ""}>Ambulancier</option>
+      </select>
+    </td>
+    <td><input type="text" placeholder="DECT" value="${row.dect || ''}"></td>
+    <td><button onclick="deleteRow(this)">Supprimer</button></td>
+  `);
+
+  // Régulateur
+  renderRows(document.querySelector('#regulateurTable tbody'), data.regulateur || [], (row) => `
+    <td><select>
+      <option ${row.nom==="Nom 1" ? "selected" : ""}>Nom 1</option>
+      <option ${row.nom==="Nom 2" ? "selected" : ""}>Nom 2</option>
+    </select></td>
+    <td><input type="text" placeholder="DECT" value="${row.dect || ''}"></td>
+    <td><button onclick="deleteRow(this)">Supprimer</button></td>
+  `);
+
+  // Ambulance de Garde
+  renderRows(document.querySelector('#ambulanceGardeTable tbody'), data.ambulanceGarde || [], (row) => `
+    <td><select>
+      <option ${row.nom==="Nom 1" ? "selected" : ""}>Nom 1</option>
+      <option ${row.nom==="Nom 2" ? "selected" : ""}>Nom 2</option>
+    </select></td>
+    <td><input type="text" placeholder="DECT" value="${row.dect || ''}"></td>
+    <td><button onclick="deleteRow(this)">Supprimer</button></td>
+  `);
+
+  // Ambulance de Sortie
+  renderRows(document.querySelector('#ambulanceSortieTable tbody'), data.ambulanceSortie || [], (row) => `
+    <td><select>
+      <option ${row.nom==="Nom 1" ? "selected" : ""}>Nom 1</option>
+      <option ${row.nom==="Nom 2" ? "selected" : ""}>Nom 2</option>
+    </select></td>
+    <td><input type="text" placeholder="DECT" value="${row.dect || ''}"></td>
+    <td><button onclick="deleteRow(this)">Supprimer</button></td>
+  `);
+
+  // Pharmacie
+  renderRows(document.querySelector('#pharmacieTable tbody'), data.pharmacie || [], (row) => `
+    <td><input type="text" placeholder="Nom" value="${row.nom || ''}"></td>
+    <td><input type="text" placeholder="Adresse" value="${row.adresse || ''}"></td>
+    <td><input type="text" placeholder="DECT" value="${row.dect || ''}"></td>
+    <td><button onclick="deleteRow(this)">Supprimer</button></td>
+  `);
+
+  // Administrateur
+  renderRows(document.querySelector('#administrateurTable tbody'), data.administrateur || [], (row) => `
+    <td><select>
+      <option ${row.nom==="Nom 1" ? "selected" : ""}>Nom 1</option>
+      <option ${row.nom==="Nom 2" ? "selected" : ""}>Nom 2</option>
+    </select></td>
+    <td><input type="text" placeholder="DECT" value="${row.dect || ''}"></td>
+    <td><button onclick="deleteRow(this)">Supprimer</button></td>
+  `);
+}
+
+    // ====== Save / Load ======
+    let debounceTimer = null;
+    function scheduleSave() {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(saveAll, 400); // anti-spam
+      setSaving(true);
+    }
+
+    async function saveAll() {
+      const data = serializeAll();
+      await set(dataRef(), data);
+      setSaving(false);
+    }
+
+    function loadAndListen() {
+      onValue(dataRef(), (snap) => {
+        const val = snap.val();
+        if (val) {
+          hydrateAll(val);
+        }
+        // Après hydratation, on relie les écouteurs pour autosave
+        wireAutoSave();
+        setSaving(false);
+      });
+    }
+
+    // ====== UI wiring ======
+    function wireAutoSave() {
+      // écouteurs sur tous inputs/selects présents
+      $$("input, select").forEach(el => {
+        el.oninput = scheduleSave;
+        el.onchange = scheduleSave;
+      });
+    }
+
+    document.getElementById('forceSaveBtn').addEventListener('click', saveAll);
+
+    document.getElementById('newDayBtn').addEventListener('click', () => {
+      currentKey = todayKey();
+      localStorage.setItem('gardeDayKey', currentKey);
+      dayKeyEl.textContent = currentKey;
+      hydrateAll({}); // reset affichage
+      saveAll();
+      loadAndListen();
+    });
+
+    document.getElementById('clearDayBtn').addEventListener('click', async () => {
+      if (confirm('Effacer toutes les données de la journée ?')) {
+        await remove(dataRef());
+        hydrateAll({});
+        saveAll();
+      }
+    });
+
+    // ====== Legacy functions for buttons already in HTML ======
+    window.deleteRow = function(button) {
+      const row = button.parentNode.parentNode;
+      row.parentNode.removeChild(row);
+      scheduleSave();
+    }
+
+    window.addRow = function(button) {
+      const table = button.parentNode.querySelector('tbody');
+      const newRow = table.insertRow();
+      newRow.innerHTML = `
+        <td><select><option>Médecin</option><option>Ambulancier</option></select></td>
+        <td><input type="text" placeholder="DECT" /></td>
+        <td><button onclick="deleteRow(this)">Supprimer</button></td>`;
+      wireAutoSave();
+      scheduleSave();
+    }
+
+    window.addPharmacieRow = function() {
+      const table = document.querySelector('#pharmacieTable tbody');
+      const newRow = table.insertRow();
+      newRow.innerHTML = `
+        <td><input type="text" placeholder="Nom" /></td>
+        <td><input type="text" placeholder="Adresse" /></td>
+        <td><input type="text" placeholder="DECT" /></td>
+        <td><button onclick="deleteRow(this)">Supprimer</button></td>`;
+      wireAutoSave();
+      scheduleSave();
+    }
+
+    window.addMedecinRow = function() {
+      const table = document.getElementById('medecinTable').getElementsByTagName('tbody')[0];
+      const newRow = table.insertRow();
+      newRow.innerHTML = `
+        <td>
+          <select>
+            <option>Dr. Didot</option>
+            <option>Dr. Hallet</option>
+            <option>Dr. Déchery</option>
+            <option>Dr. Jajolet</option>
+            <option>Dr. Ndiaye</option>
+            <option>Dr. Parmond</option>
+            <option>Dr. Alkouja</option>
+            <option>Dr. Dabbousi</option>
+            <option>Dr. Faure</option>
+            <option>Dr. Combes</option>
+            <option>Dr. Easy</option>
+            <option>Dr. Dokoula</option>
+            <option>Dr. Profiriou</option>
+            <option>Dr. Phan</option>
+            <option>Dr. fanoréna</option>
+            <option>Dr. Hefte</option>
+            <option>Dr. Lévy</option>
+            <option>IMADIS</option>
+          </select>
+        </td>
+        <td>
+          <select>
+            <option>Gynécologie</option>
+            <option>Médecine Interne</option>
+            <option>Radiologie</option>
+            <option>Cardiologie</option>
+            <option>Angio</option>
+            <option>Ophtalmologie</option>
+            <option>ORL</option>
+            <option>Urologie</option>
+            <option>Vasculaire </option>
+            <option>Gynécologue</option>
+            <option>Médecine interne</option>
+            <option>Neuro-Vasculaire</option>
+            <option>Pédiatre</option>
+            <option>Radio/IRM</option>
+          </select>
+        </td>
+        <td><input type="text" placeholder="DECT" /></td>
+        <td><button onclick="deleteRow(this)">Supprimer</button></td>`;
+      wireAutoSave();
+      scheduleSave();
+    }
+
+    // ====== Boot ======
+    document.getElementById('date').textContent = new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    wireAutoSave();
+    loadAndListen();
+  </script>
+</body>
+</html>
