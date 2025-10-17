@@ -417,8 +417,33 @@
      // Régulateur
 renderRows(document.querySelector('#regulateurTable tbody'), data.regulateur || [], (row) => `
 <td><select>
-<option ${row.nom==="Dr Mazuir"?'selected':''}>Dr Mazuir</option>
-<option ${row.nom==="Dr Meyer"?'selected':''}>Dr Meyer</option>
+<option ${row.nom==="Dr Agbessi"?'selected':''}>Dr Agbessi 7886</option>
+<option ${row.nom==="Dr Arar"?'selected':''}>Dr Arar 8216</option>
+<option ${row.nom==="Dr Belghalem"?'selected':''}>Dr Belghalem</option>
+<option ${row.nom==="Dr Bennasr"?'selected':''}>Dr Bennasr</option>
+<option ${row.nom==="Dr Campet"?'selected':''}>Dr Campet</option>
+<option ${row.nom==="Dr Carlos"?'selected':''}>Dr Carlos 6497</option>
+<option ${row.nom==="Dr Chereau"?'selected':''}>Dr Chereau</option>
+<option ${row.nom==="Dr Chomono"?'selected':''}>Dr Chomono</option>
+<option ${row.nom==="Dr Cochonneau"?'selected':''}>Dr Cochonneau 7895</option>
+<option ${row.nom==="Dr Dechery"?'selected':''}>Dr Dechery 7309</option>
+<option ${row.nom==="Dr Dorion"?'selected':''}>Dr Dorion 7313</option>
+<option ${row.nom==="Dr Gonzales de Linares"?'selected':''}>Dr Gonzales de Linares</option>
+<option ${row.nom==="Dr Hibon Ricard"?'selected':''}>Dr Hibon Ricard</option>
+<option ${row.nom==="Dr Labbens"?'selected':''}>Dr Labbens 7350</option>
+<option ${row.nom==="Dr Mazuir"?'selected':''}>Dr Mazuir 7366</option>
+<option ${row.nom==="Dr Mercoyrol"?'selected':''}>Dr Mercoyrol</option>
+<option ${row.nom==="Dr Meyer"?'selected':''}>Dr Meyer 6412</option>
+<option ${row.nom==="Dr Michel"?'selected':''}>Dr Michel</option>
+<option ${row.nom==="Dr Mirat"?'selected':''}>Dr Mirat</option>
+<option ${row.nom==="Dr Nasalan"?'selected':''}>Dr Nasalan 7320</option>
+<option ${row.nom==="Dr Nuskovski"?'selected':''}>Dr Nuskovski</option>
+<option ${row.nom==="Dr Paris"?'selected':''}>Dr Paris</option>
+<option ${row.nom==="Dr Rabec"?'selected':''}>Dr Rabec</option>
+<option ${row.nom==="Dr Shehata"?'selected':''}>Dr Shehata</option>
+<option ${row.nom==="Dr Santiago"?'selected':''}>Dr Santiago</option>
+<option ${row.nom==="Dr Sokpoh"?'selected':''}>Dr Sokpoh</option>
+
 </select></td>
 <td><input type="text" placeholder="DECT" value="${row.dect||''}" /></td>
 <td><button onclick="deleteRow(this)">Supprimer</button></td>
