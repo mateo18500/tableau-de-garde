@@ -414,18 +414,15 @@
         <td><button onclick="deleteRow(this)">Supprimer</button></td>
       `);
 
-      // Régulateur
-      renderRows(document.querySelector('#regulateurTable tbody'), data.regulateur || [], (row) => `
-        <td><select>
-           <select id="ambulanceSelect">
-   <option ${row.nom==="Dr Mazuir"?'selected':''}>Dr Mazuir</option>
-  </optgroup>
-</select>
-
-          </select></td>
-        <td><input type="text" placeholder="DECT" value="${row.dect||''}" /></td>
-        <td><button onclick="deleteRow(this)">Supprimer</button></td>
-      `);
+     // Régulateur
+renderRows(document.querySelector('#regulateurTable tbody'), data.regulateur || [], (row) => `
+<td><select>
+<option ${row.nom==="Dr Mazuir"?'selected':''}>Dr Mazuir</option>
+<option ${row.nom==="Dr Meyer"?'selected':''}>Dr Meyer</option>
+</select></td>
+<td><input type="text" placeholder="DECT" value="${row.dect||''}" /></td>
+<td><button onclick="deleteRow(this)">Supprimer</button></td>
+`);
 
       // Ambulance de Garde
       renderRows(document.querySelector('#ambulanceGardeTable tbody'), data.ambulanceGarde || [], (row) => `
