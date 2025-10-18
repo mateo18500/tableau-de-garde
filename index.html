@@ -68,8 +68,7 @@
     /* Badges */
     .vehicule-badge{ font-weight:800; color:#ef4444; letter-spacing:.5px; text-align:left; padding-left:8px; }
     .reg-badge{ font-weight:800; color:#22c55e; letter-spacing:.5px; text-align:left; padding-left:8px; }
-    /* NUIT rouge (N1/N2) */
-    #regulateurNuitTable .reg-badge{ color:#ef4444; }
+    #regulateurNuitTable .reg-badge{ color:#ef4444; } /* N1/N2 rouge */
 
     /* Pharmacie lisible */
     #pharmacieTable thead th{ font-size:14px }
@@ -77,12 +76,10 @@
     #pharmacieTable .pharm-addr textarea{ min-height:56px; font-size:14px; line-height:1.35; resize:vertical; }
     #pharmacieTable .pharm-dect input{ font-weight:700; letter-spacing:.3px; }
 
-    /* === Chat mini (dans la colonne gauche, sous “Infos fixes”) === */
+    /* Chat mini */
     .chat-mini { margin-top:12px; }
     .chat-mini .section-header{ margin-bottom:6px; }
-    .chat-editor{
-      display:grid; grid-template-columns: 160px 1fr auto; gap:8px; align-items:start; margin-bottom:8px;
-    }
+    .chat-editor{ display:grid; grid-template-columns: 160px 1fr auto; gap:8px; align-items:start; margin-bottom:8px; }
     .chat-editor input, .chat-editor textarea{ font-size:15px; padding:8px 10px; }
     .chat-editor textarea{ min-height:54px; resize:vertical; }
     .chat-list{
@@ -90,17 +87,13 @@
       border:1px solid rgba(255,255,255,.10); border-radius:10px; padding:8px;
       background: rgba(255,255,255,.03);
     }
-    .chat-item{
-      display:grid; grid-template-columns: 1fr auto; gap:8px; align-items:start;
+    .chat-item{ display:grid; grid-template-columns: 1fr auto; gap:8px; align-items:start;
       background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
-      border-radius:10px; padding:8px 10px;
-    }
+      border-radius:10px; padding:8px 10px; }
     .chat-meta{ font-size:12px; color:#cbd5e1; margin-bottom:4px }
     .chat-text{ white-space: pre-wrap; font-size:14px }
-    .chat-del{
-      background:transparent; border:1px solid rgba(255,255,255,.2);
-      color:#e5e7eb; padding:2px 8px; border-radius:8px; cursor:pointer;
-    }
+    .chat-del{ background:transparent; border:1px solid rgba(255,255,255,.2);
+      color:#e5e7eb; padding:2px 8px; border-radius:8px; cursor:pointer; }
     .chat-del:hover{ border-color: rgba(239,68,68,.6); color:#fecaca; }
   </style>
 </head>
@@ -387,7 +380,7 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getDatabase, ref, set, onValue, remove, push } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+    import { getDatabase, ref, set, onValue, remove, push, update } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyDG8Tjus5no-pJpmd3tOwydo-QY8ERhH8Y",
@@ -667,7 +660,14 @@
     let skipNextUpdate = false;
 
     function scheduleSave(){ clearTimeout(debounceTimer); debounceTimer = setTimeout(saveAll, DEBOUNCE_MS); setSaving(true); }
-    async function saveAll(){ const data = serializeAll(); skipNextUpdate = true; await set(dataRef(), data); setSaving(false); }
+
+    // IMPORTANT: utiliser update() pour ne PAS écraser "chat"
+    async function saveAll(){
+      const data = serializeAll();
+      skipNextUpdate = true;
+      await update(dataRef(), data);  // ← MERGE
+      setSaving(false);
+    }
 
     function loadAndListen(){
       onValue(dataRef(), (snap)=>{
@@ -682,11 +682,11 @@
     function wireAutoSave(){
       // Médecins : badge service live
       $$('#medecinTable tbody input[list="medecinsList"]').forEach(inp=>{
-        const update = () => {
+        const updateSvc = () => {
           inp.closest('tr').cells[1].querySelector('.service-badge').textContent = inferService(inp.value);
           scheduleSave();
         };
-        inp.oninput = update; inp.onchange = update;
+        inp.oninput = updateSvc; inp.onchange = updateSvc;
       });
       $$( 'input, select, textarea' ).forEach(el=>{ el.oninput = scheduleSave; el.onchange = scheduleSave; });
     }
@@ -701,10 +701,13 @@
     document.getElementById('newDayBtn').addEventListener('click', ()=>{
       currentKey = todayKey(); localStorage.setItem('gardeDayKey', currentKey); dayKeyEl.textContent = currentKey;
       hydrateAll({}); saveAll(); loadAndListen();
-      wireChatUI(); loadChat(); // relancer le chat sur la nouvelle journée
+      wireChatUI(); loadChat(); // relancer le chat pour la nouvelle journée
     });
     document.getElementById('clearDayBtn').addEventListener('click', async ()=>{
-      if (confirm('Effacer toutes les données de la journée ?')){ await remove(dataRef()); hydrateAll({}); saveAll(); }
+      if (confirm('Effacer toutes les données de la journée ?')){
+        await remove(dataRef());       // supprime TOUT, y compris chat (logique pour "vider la journée")
+        hydrateAll({}); saveAll();
+      }
     });
 
     // Actions génériques
