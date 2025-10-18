@@ -76,14 +76,15 @@
     #pharmacieTable .pharm-addr textarea{ min-height:56px; font-size:14px; line-height:1.35; resize:vertical; }
     #pharmacieTable .pharm-dect input{ font-weight:700; letter-spacing:.3px; }
 
-    /* Chat mini */
-    .chat-mini { margin-top:12px; }
-    .chat-mini .section-header{ margin-bottom:6px; }
-    .chat-editor{ display:grid; grid-template-columns: 160px 1fr auto; gap:8px; align-items:start; margin-bottom:8px; }
-    .chat-editor input, .chat-editor textarea{ font-size:15px; padding:8px 10px; }
-    .chat-editor textarea{ min-height:54px; resize:vertical; }
-    .chat-list{
-  max-height: 520px;        /* ← augmente la zone d’affichage */
+    /* ===================== CHAT MINI ===================== */
+.chat-mini { margin-top:12px; }
+.chat-mini .section-header{ margin-bottom:6px; }
+.chat-editor{ display:grid; grid-template-columns: 160px 1fr auto; gap:8px; align-items:start; margin-bottom:8px; }
+.chat-editor input, .chat-editor textarea{ font-size:15px; padding:8px 10px; }
+.chat-editor textarea{ min-height:54px; resize:vertical; }
+
+.chat-list{
+  max-height: 520px;        /* zone d’affichage plus haute */
   overflow:auto;
   display:flex;
   flex-direction:column;
@@ -93,27 +94,290 @@
   padding:8px;
   background: rgba(255,255,255,.03);
 }
-    .chat-item{ display:grid; grid-template-columns: 1fr auto; gap:8px; align-items:start;
-      background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
-      border-radius:10px; padding:8px 10px; }
-    .chat-meta{ font-size:12px; color:#cbd5e1; margin-bottom:4px }
-    .chat-text{ white-space: pre-wrap; font-size:14px }
-    .chat-del{ background:transparent; border:1px solid rgba(255,255,255,.2);
-      color:#e5e7eb; padding:2px 8px; border-radius:8px; cursor:pointer; }
-    .chat-del:hover{ border-color: rgba(239,68,68,.6); color:#fecaca; }
+.chat-item{
+  display:grid; grid-template-columns: 1fr auto; gap:8px; align-items:start;
+  background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
+  border-radius:10px; padding:10px 12px;
+}
+.chat-meta{ font-size:20px; color:#cbd5e1; margin-bottom:4px }
+.chat-text{ white-space: pre-wrap; font-size:35px; line-height:1.5 }
+.chat-del{
+  background:transparent; border:1px solid rgba(255,255,255,.2);
+  color:#e5e7eb; padding:2px 8px; border-radius:8px; cursor:pointer;
+}
+.chat-del:hover{ border-color: rgba(239,68,68,.6); color:#fecaca; }
 
-/* Agrandir tous les menus déroulants du site liste déroulante */
-select { 
-  font-size: 30px;       /* Mets 18px, 20px si tu veux plus grand */
+/* Saisie du chat plus grande */
+.chat-editor input,
+.chat-editor textarea{ font-size:25px; }
+
+/* ===================== LISTES DÉROULANTES (global) ===================== */
+/* Tu voulais du grand partout */
+select {
+  font-size: 30px;
   line-height: 1.3;
   padding: 10px 12px;
 }
-
-/* Taille des éléments de la liste (selon le navigateur) */
+/* La taille interne des options dépend du navigateur, on force un peu */
 select option,
-select optgroup { 
-  font-size: 16px;
+select optgroup { font-size:16px; }
+
+/* ===================== MÉDECINS ===================== */
+/* Champ NOM (datalist) */
+#medecinTable input[list="medecinsList"]{
+  font-size: 30px;
+  font-weight: 700;
+  padding: 10px 12px;
+  height: 42px;
 }
+
+/* Étiquette SERVICE : centrée et grande */
+#medecinTable .service-badge{
+  display:flex; align-items:center; justify-content:center;
+  font-size:25px; font-weight:700;
+  padding:10px 14px; min-width:180px; min-height:56px;
+  background: rgba(99,102,241,.22);
+  border: 1px solid rgba(99,102,241,.45);
+  color:#fff; border-radius:10px; text-align:center;
+}
+
+/* DECT (médecins) */
+#medecinTable td input[type="text"]{
+  font-size:30px; font-weight:700; height:40px;
+}
+
+/* ===================== SMUR ===================== */
+#smurPrimaireTable td input, #smurPrimaireTable td select,
+#smurSecondaireTable td input, #smurSecondaireTable td select{
+  font-size:30px; font-weight:700; height:42px;
+}
+
+/* ===================== RÉGULATEURS ===================== */
+/* Tu voulais surtout grossir les DECT ; on cible leurs champs par classe */
+#regulateurJourTable .rj-dect,
+#regulateurNuitTable .rn-dect{
+  font-size:30px; font-weight:700; height:42px;
+}
+
+/* N1/N2 en rouge vif */
+#regulateurNuitTable .reg-badge{ color:#ef4444; font-weight:800; }
+/* Variante pastille si tu avais ajouté la classe .pill / .pastille */
+#regulateurNuitTable .reg-badge.pill,
+#regulateurNuitTable .reg-badge.pastille{
+  color:#fff; background:#dc2626; border:1px solid rgba(255,255,255,.2);
+  padding:2px 8px; border-radius:10px;
+}
+
+/* ===================== AMBULANCES DE GARDE ===================== */
+#ambulanceGardeTable{
+  background: rgba(0, 50, 120, 0.25);
+  border-radius:10px; padding:10px;
+}
+#ambulanceGardeTable th{
+  background: rgba(0, 80, 160, 0.4);
+  color:#fff;
+}
+#ambulanceGardeTable select,
+#ambulanceGardeTable input{
+  background: rgba(255,255,255,0.08);
+  color:#f1f5f9;
+  font-weight:600;
+  border:1px solid rgba(255,255,255,0.15);
+  border-radius:6px;
+}
+/* Texte plus gros pour nom et DECT dans ce tableau */
+#ambulanceGardeTable td input[type="text"],
+#ambulanceGardeTable td select{
+  font-size:30px; font-weight:700; height:42px;
+}
+
+/* ===================== MRL (Médecins Régulateurs Libéraux) ===================== */
+#regulLiberalTable td input[type="text"],
+#regulLiberalTable td select{
+  font-size:20px; font-weight:700; height:42px;
+}
+
+/* ===================== ADMINISTRATEUR DE GARDE ===================== */
+#administrateurTable td input[type="text"],
+#administrateurTable td select{
+  font-size:20px; font-weight:700; height:42px;
+}
+
+
+/* ===================== AMBULANCES DYNAMIQUES (Sortie + GHT) ===================== */
+#ambulanceSortieTable td input[type="text"],
+#ambulanceSortieTable td select,
+#ambulanceGHTTable   td input[type="text"],
+#ambulanceGHTTable   td select{
+  font-size:20px; font-weight:700; height:42px;
+}
+
+
+/* === Taille et style des titres de section === */
+.section-header,
+h2.section-header,
+h3.section-header {
+  font-size: 25px;          /* 🔹 taille du titre */
+  font-weight: 800;         /* 🔹 texte bien marqué */
+  text-transform: uppercase; /* 🔹 tout en majuscules (optionnel) */
+  color: #ffffff;           /* 🔹 blanc pur pour contraste */
+  letter-spacing: 1px;      /* 🔹 aère un peu les lettres */
+  margin-bottom: 10px;
+  text-align: center;       /* 🔹 centré */
+}
+
+/* Optionnel : effet visuel de fond */
+.section-header::after {
+  content: "";
+  display: block;
+  width: 60%;
+  height: 2px;
+  background: linear-gradient(to right, #2563eb, #38bdf8);
+  margin: 6px auto 0 auto;
+  border-radius: 2px;
+}
+
+
+
+
+
+
+/* ===== INFOS FIXES (RAPPELS) — Overrides forts ===== */
+#infosFixesBlock #infosFixesTitle{
+  font-size: 40px !important;
+  font-weight: 900 !important;
+  color: #60a5fa !important;
+  text-transform: uppercase !important;
+  text-align: center !important;
+  margin-bottom: 12px !important;
+}
+
+#infosFixesBlock #infosFixesTable{
+  width: 100% !important;
+  border-collapse: collapse !important;
+  margin-top: 10px !important;
+  background: rgba(255,255,255,0.03) !important;
+  border-radius: 10px !important;
+  overflow: hidden !important;
+}
+
+/* Titres colonnes */
+#infosFixesBlock #infosFixesTable thead th{
+  font-size: 28px !important;
+  font-weight: 800 !important;
+  color: #e0f2fe !important;
+  background: rgba(255,255,255,0.08) !important;
+  padding: 14px 10px !important;
+  text-align: center !important;
+}
+
+/* Cellules */
+#infosFixesBlock #infosFixesTable tbody td{
+  font-size: 20px !important;      /* ← taille du texte des lignes */
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  padding: 12px 18px !important;
+  border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+}
+
+/* Colonne libellé */
+#infosFixesBlock #infosFixesTable tbody td.td-left{
+  width: 280px !important;
+  text-align: left !important;
+  font-weight: 800 !important;
+}
+
+/* Pastilles DECT */
+#infosFixesBlock #infosFixesTable .tag{
+  font-size: 20px !important;      /* ← taille des numéros */
+  font-weight: 900 !important;
+  padding: 8px 14px !important;
+  background: #004aad !important;
+  color: #fff !important;
+  border-radius: 10px !important;
+  display: inline-block !important;
+  min-width: 110px !important;
+  text-align: center !important;
+  margin-right: 8px !important;
+}
+
+/* Lignes-titres (SMUR PRIMAIRE/SECONDAIRE) */
+#infosFixesBlock #infosFixesTable .title-row th{
+  background: rgba(0,0,0,0.2) !important;
+  color: #93c5fd !important;
+  font-size: 26px !important;
+  font-weight: 900 !important;
+  text-align: left !important;
+  padding: 10px 14px !important;
+}
+
+
+
+
+/* === Taille et style des pastilles B1, B2, B3, R1, R2, N1, N2 === */
+.reg-badge {
+  font-size: 34px !important;        /* 🔹 augmente la taille du texte */
+  font-weight: 900 !important;       /* 🔹 gras */
+  padding: 10px 18px !important;     /* 🔹 agrandit la pastille */
+  border-radius: 12px !important;    /* 🔹 bords arrondis */
+  display: inline-block !important;
+  text-align: center !important;
+  letter-spacing: 1px !important;
+  min-width: 80px !important;        /* 🔹 largeur mini uniforme */
+}
+
+/* Variante couleur — Régulateurs jour (R1, R2, B1, B2, etc.) */
+.reg-badge.jour {
+  background: #2563eb !important;    /* 🔹 bleu jour */
+  color: #fff !important;
+}
+
+/* Variante couleur — Régulateurs nuit (N1, N2) */
+.reg-badge.nuit {
+  background: #dc2626 !important;    /* 🔴 rouge nuit */
+  color: #fff !important;
+}
+
+
+/* === Agrandir B1, B2, B3… dans Ambulance de Garde === */
+#ambulanceGardeTable td.vehicule-badge,
+#ambulanceGardeTable .vehicule-badge {
+  font-size: 34px !important;   /* ↑ taille */
+  font-weight: 900 !important;  /* gras */
+  letter-spacing: 1px !important;
+  padding: 8px 12px !important; /* un peu d’air */
+  text-align: left !important;
+  color: #ef4444 !important;    /* rouge (comme avant) */
+}
+
+/* === Couleurs spécifiques pour les pastilles J (jour) et N (nuit) === */
+#infosFixesBlock #infosFixesTable .tag.j {
+  background: #2563eb !important;  /* 🔹 bleu jour */
+  color: #ffffff !important;
+}
+
+#infosFixesBlock #infosFixesTable .tag.n {
+  background: #dc2626 !important;  /* 🔴 rouge nuit */
+  color: #ffffff !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   </style>
 </head>
 <body>
@@ -162,28 +426,37 @@ select optgroup {
         <button onclick="addMedecinRow()">➕ Ajouter un médecin</button>
       </div>
 
-      <div class="section-header" style="margin-top:12px">Infos fixes (rappels)</div>
-      <table>
-        <thead><tr><th>Libellé</th><th>Numéro / DECT</th></tr></thead>
-        <tbody>
-          <tr><td class="td-left">IOA jour</td><td><span class="tag">7658</span></td></tr>
-          <tr><td class="td-left">IOA Nuit</td><td><span class="tag">7659</span></td></tr>
-          <tr><td class="td-left">Cardiologie</td><td><span class="tag">12703</span></td></tr>
-          <tr><td class="td-left">Neuro-Vasculaire</td><td><span class="tag">12676</span></td></tr>
-          <tr><td class="td-left">Pédiatrie</td><td><span class="tag">7665</span></td></tr>
-          <tr><td class="td-left">Radio / IRM</td><td><span class="tag">—</span></td></tr>
+      <div id="infosFixesBlock">
+  <div id="infosFixesTitle" class="section-header" style="margin-top:12px">
+    INFOS FIXES (RAPPELS)
+  </div>
 
-          <tr class="title-row"><th colspan="2" style="text-align:left;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:10px;color:#dbeafe;padding:8px 10px;">⬇️ SMUR PRIMAIRE</th></tr>
-          <tr><td class="td-left">Médecin Primaire</td><td><span class="tag j">J 7578</span><span class="tag n">N 7579</span></td></tr>
-          <tr><td class="td-left">IDE Primaire</td><td><span class="tag j">J 7572</span><span class="tag n">N 7573</span></td></tr>
-          <tr><td class="td-left">Ambulancier Primaire</td><td><span class="tag j">J 7570</span><span class="tag n">N 7571</span></td></tr>
+  <table id="infosFixesTable">
+    <thead>
+      <tr>
+        <th>Libellé</th><th>Numéro / DECT</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="td-left">IOA jour</td><td><span class="tag">7658</span></td></tr>
+      <tr><td class="td-left">IOA Nuit</td><td><span class="tag">7659</span></td></tr>
+      <tr><td class="td-left">Cardiologie</td><td><span class="tag">12703</span></td></tr>
+      <tr><td class="td-left">Neuro-Vasculaire</td><td><span class="tag">12676</span></td></tr>
+      <tr><td class="td-left">Pédiatrie</td><td><span class="tag">7665</span></td></tr>
+      <tr><td class="td-left">Radio / IRM</td><td><span class="tag">—</span></td></tr>
 
-          <tr class="title-row"><th colspan="2" style="text-align:left;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:10px;color:#dbeafe;padding:8px 10px;">⬇️ SMUR SECONDAIRE</th></tr>
-          <tr><td class="td-left">Médecin Secondaire</td><td><span class="tag j">J 7580</span><span class="tag n">N 7581</span></td></tr>
-          <tr><td class="td-left">IDE Secondaire 9h-21h</td><td><span class="tag j">J 7576</span><span class="tag n">N 7577</span></td></tr>
-          <tr><td class="td-left">Ambulancier Secondaire</td><td><span class="tag j">J 7574</span><span class="tag n">N 7575</span></td></tr>
-        </tbody>
-      </table>
+      <tr class="title-row"><th colspan="2">⬇️ SMUR PRIMAIRE</th></tr>
+      <tr><td class="td-left">Médecin Primaire</td><td><span class="tag j">J 7578</span><span class="tag n">N 7579</span></td></tr>
+      <tr><td class="td-left">IDE Primaire</td><td><span class="tag j">J 7572</span><span class="tag n">N 7573</span></td></tr>
+      <tr><td class="td-left">Ambulancier Primaire</td><td><span class="tag j">J 7570</span><span class="tag n">N 7571</span></td></tr>
+
+      <tr class="title-row"><th colspan="2">⬇️ SMUR SECONDAIRE</th></tr>
+      <tr><td class="td-left">Médecin Secondaire</td><td><span class="tag j">J 7580</span><span class="tag n">N 7581</span></td></tr>
+      <tr><td class="td-left">IDE Secondaire 9h-21h</td><td><span class="tag j">J 7576</span><span class="tag n">N 7577</span></td></tr>
+      <tr><td class="td-left">Ambulancier Secondaire</td><td><span class="tag j">J 7574</span><span class="tag n">N 7575</span></td></tr>
+    </tbody>
+  </table>
+</div>
 
       <!-- === CHAT MINI SOUS “INFOS FIXES” === -->
       <div class="chat-mini">
@@ -869,7 +1142,7 @@ select optgroup {
   </script>
 
   <footer class="footer" style="text-align:center;color:#9ca3af;font-size:14px;padding:12px 0;border-top:1px solid rgba(255,255,255,.1);margin-top:16px;background:rgba(255,255,255,.02);">
-    © 2025 Matéo CALLEJA — Tous droits réservés
+    © 2025 Tableau de garde V3 - Matéo CALLEJA — Tous droits réservés
   </footer>
 </body>
 </html>
