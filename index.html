@@ -169,32 +169,42 @@ select optgroup { font-size:16px; }
 }
 
 /* ===================== AMBULANCES DE GARDE ===================== */
-#ambulanceGardeTable{
+#ambulanceGardeTable {
   background: rgba(0, 50, 120, 0.25);
-  border-radius:10px; padding:10px;
+  border-radius: 10px;
+  padding: 10px;
 }
-#ambulanceGardeTable th{
+
+#ambulanceGardeTable th {
   background: rgba(0, 80, 160, 0.4);
-  color:#fff;
+  color: #fff;
 }
+
+/* Champs de saisie : style global */
 #ambulanceGardeTable select,
-#ambulanceGardeTable input{
-  background: rgba(255,255,255,0.08);
-  color:#f1f5f9;
-  font-weight:600;
-  border:1px solid rgba(255,255,255,0.15);
-  border-radius:6px;
+#ambulanceGardeTable input {
+  background: rgba(255, 255, 255, 0.08);
+  color: #f1f5f9;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  padding: 8px 10px;     /* 🔹 espace intérieur du champ */
 }
-/* Texte plus gros pour nom et DECT dans ce tableau */
+
+/* Texte plus gros pour nom et DECT + largeur ajustable */
 #ambulanceGardeTable td input[type="text"],
-#ambulanceGardeTable td select{
-  font-size:30px; font-weight:700; height:42px;
+#ambulanceGardeTable td select {
+  font-size: 30px;
+  font-weight: 700;
+  height: 44px;          /* 🔹 hauteur du champ */
+  width:500px;          /* 🔹 largeur du champ — augmente ou diminue selon ton besoin */
+  text-align: center;    /* 🔹 centre le texte à l’intérieur */
 }
 
 /* ===================== MRL (Médecins Régulateurs Libéraux) ===================== */
 #regulLiberalTable td input[type="text"],
 #regulLiberalTable td select{
-  font-size:20px; font-weight:700; height:42px;
+  font-size:25px; font-weight:700; height:42px;
 }
 
 /* ===================== ADMINISTRATEUR DE GARDE ===================== */
@@ -372,6 +382,23 @@ h3.section-header {
 
 
 
+/* === Inverser l’ordre du chat : dernier message en haut === */
+.chat-list {
+  display: flex;
+  flex-direction: column-reverse; /* 🔹 inverse l’ordre d’affichage */
+  max-height: 520px;
+  overflow: auto;
+  gap: 6px;
+  border: 1px solid rgba(255, 255, 255, .10);
+  border-radius: 10px;
+  padding: 8px;
+  background: rgba(255, 255, 255, .03);
+}
+
+
+
+
+
 
 
 
@@ -445,12 +472,12 @@ h3.section-header {
       <tr><td class="td-left">Pédiatrie</td><td><span class="tag">7665</span></td></tr>
       <tr><td class="td-left">Radio / IRM</td><td><span class="tag">—</span></td></tr>
 
-      <tr class="title-row"><th colspan="2">⬇️ SMUR PRIMAIRE</th></tr>
+      <tr class="title-row"><th colspan="2">⬇️🚑SMUR PRIMAIRE </th></tr>
       <tr><td class="td-left">Médecin Primaire</td><td><span class="tag j">J 7578</span><span class="tag n">N 7579</span></td></tr>
       <tr><td class="td-left">IDE Primaire</td><td><span class="tag j">J 7572</span><span class="tag n">N 7573</span></td></tr>
       <tr><td class="td-left">Ambulancier Primaire</td><td><span class="tag j">J 7570</span><span class="tag n">N 7571</span></td></tr>
 
-      <tr class="title-row"><th colspan="2">⬇️ SMUR SECONDAIRE</th></tr>
+      <tr class="title-row"><th colspan="2">⬇️🚑 SMUR SECONDAIRE</th></tr>
       <tr><td class="td-left">Médecin Secondaire</td><td><span class="tag j">J 7580</span><span class="tag n">N 7581</span></td></tr>
       <tr><td class="td-left">IDE Secondaire 9h-21h</td><td><span class="tag j">J 7576</span><span class="tag n">N 7577</span></td></tr>
       <tr><td class="td-left">Ambulancier Secondaire</td><td><span class="tag j">J 7574</span><span class="tag n">N 7575</span></td></tr>
@@ -1142,7 +1169,7 @@ h3.section-header {
   </script>
 
   <footer class="footer" style="text-align:center;color:#9ca3af;font-size:14px;padding:12px 0;border-top:1px solid rgba(255,255,255,.1);margin-top:16px;background:rgba(255,255,255,.02);">
-    © 2025 Tableau de garde V3 - Matéo CALLEJA — Tous droits réservés
+    © 2025 Tableau de garde V3.1 - Matéo CALLEJA — Tous droits réservés
   </footer>
 </body>
 </html>
