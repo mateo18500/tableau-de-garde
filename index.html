@@ -386,8 +386,7 @@
   </datalist>
 
   <script type="module">
-   import { getDatabase, ref, set, onValue, remove, push, update } 
-  from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getDatabase, ref, set, onValue, remove, push } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
     const firebaseConfig = {
@@ -668,16 +667,7 @@
     let skipNextUpdate = false;
 
     function scheduleSave(){ clearTimeout(debounceTimer); debounceTimer = setTimeout(saveAll, DEBOUNCE_MS); setSaving(true); }
-    // avant
-// async function saveAll(){ const data = serializeAll(); skipNextUpdate = true; await set(dataRef(), data); setSaving(false); }
-
-// après
-async function saveAll(){
-  const data = serializeAll();
-  skipNextUpdate = true;
-  await update(dataRef(), data);   // <-- merge, ne touche pas "chat"
-  setSaving(false);
-}
+    async function saveAll(){ const data = serializeAll(); skipNextUpdate = true; await set(dataRef(), data); setSaving(false); }
 
     function loadAndListen(){
       onValue(dataRef(), (snap)=>{
