@@ -11,17 +11,13 @@
       --shadow: 0 8px 30px rgba(0,0,0,.35); --radius:14px;
     }
     *{box-sizing:border-box}
-    body{
-      margin:0; color:var(--text);
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
-      background: radial-gradient(1200px 900px at 20% -10%, #1e293b 0%, #0f172a 60%);
-    }
+    body{ margin:0; color:var(--text); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background: radial-gradient(1200px 900px at 20% -10%, #1e293b 0%, #0f172a 60%); }
     .header{ padding:20px 12px; text-align:center;
       background: linear-gradient(135deg, rgba(37,99,235,.35), rgba(124,58,237,.30));
-      border-bottom:1px solid rgba(255,255,255,.08); backdrop-filter: blur(6px);
-    }
+      border-bottom:1px solid rgba(255,255,255,.08); backdrop-filter: blur(6px); }
     .header h1{margin:0; font-size:26px}
-    #date{opacity:.85; margin-top:6px; font-size:13px}
+    #date { font-size: 1.4rem; font-weight: 600; color: #f1f5f9; letter-spacing:.5px; margin-top: 6px; text-shadow:0 1px 2px rgba(0,0,0,.4); }
 
     .sync-bar{display:flex; gap:10px; align-items:center; justify-content:center; font-size:13px; padding:8px 10px; opacity:.9}
     .dot{width:9px;height:9px;border-radius:50%}
@@ -38,12 +34,12 @@
     button.secondary{border-color: rgba(37,99,235,.4)}
     button.danger{border-color: rgba(239,68,68,.4)}
 
-    /* Grille : colonne gauche + zone droite (2 colonnes) */
-    .container{display:grid; grid-template-columns: 1.1fr 1.9fr; gap:18px; padding:16px}
+    /* Grille principale */
+    .container{display:grid; grid-template-columns: 1.1fr 1.9fr; gap:16px; padding:14px}
     @media (max-width:1100px){ .container{grid-template-columns:1fr} }
 
-    .card{background:var(--card); border:1px solid rgba(255,255,255,.10); border-radius:var(--radius); box-shadow:var(--shadow); padding:12px}
-    .section-header{font-weight:700; letter-spacing:.3px; margin:2px 0 10px; text-align:center; color:#dbeafe}
+    .card,.board{background:var(--card); border:1px solid rgba(255,255,255,.10); border-radius:var(--radius); box-shadow:var(--shadow); padding:12px}
+    .section-header{font-weight:700; letter-spacing:.3px; margin:2px 0 8px; text-align:center; color:#dbeafe}
     table{width:100%; border-collapse:collapse; overflow:hidden; border-radius:12px}
     th,td{padding:10px 10px; text-align:center}
     thead th{background: linear-gradient(180deg, rgba(37,99,235,.30), rgba(124,58,237,.18)); border-bottom:1px solid rgba(255,255,255,.12); font-size:13px}
@@ -54,78 +50,156 @@
     }
     input::placeholder, textarea::placeholder{color:#94a3b866}
     .actions{display:flex; gap:6px; justify-content:center}
-    .tag{display:inline-block; padding:2px 8px; border-radius:999px; background:rgba(37,99,235,.22); border:1px solid rgba(37,99,235,.5); font-size:12px}
+    .tag{ font-size:1.1rem; padding:4px 10px; color:#fff; background:#1e40af; border:1px solid rgba(255,255,255,.18); border-radius:10px; display:inline-block; margin-right:6px; }
+    .tag.j{ background:#2563eb; } .tag.n{ background:#dc2626; }
     .service-badge{display:inline-block; padding:2px 7px; border-radius:8px; font-size:12px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.06)}
-    .td-left{text-align:left}
+    .td-left{ text-align:left; color:#cbd5e1; font-weight:600; }
     .tight table tbody td{padding-top:6px; padding-bottom:6px}
 
-    /* Zone droite en 2 colonnes */
-    .right-grid { display:grid; grid-template-columns: repeat(2, minmax(340px, 1fr)); gap:18px; align-items:start; }
-    .board { background:var(--card); border:1px solid rgba(255,255,255,.10); border-radius:var(--radius); box-shadow:var(--shadow); padding:12px; }
-    .board .section-header { margin-bottom:8px; }
-    .board .actions > button { width:100%; }
-    @media (max-width: 1200px) { .right-grid { grid-template-columns: 1fr; } }
+    /* Grilles à droite */
+    .right-grid { display:grid; grid-template-columns: repeat(2, minmax(340px, 1fr)); gap:12px; align-items:start; }
+    .lower-grid { display:grid; grid-template-columns: repeat(2, minmax(340px, 1fr)); gap:12px; align-items:start; margin-top:12px; }
+    @media (max-width: 1200px) { .right-grid, .lower-grid { grid-template-columns: 1fr; } }
 
-    /* Badges à gauche */
+    /* Pleine largeur */
+    .full-width{ grid-column: 1 / -1; }
+
+    /* Badges de colonne gauche */
     .vehicule-badge{ font-weight:800; color:#ef4444; letter-spacing:.5px; text-align:left; padding-left:8px; }
     .reg-badge{ font-weight:800; color:#22c55e; letter-spacing:.5px; text-align:left; padding-left:8px; }
 
-    /* === Pharmacie : plein-largeur sous la grille === */
-    .full-width{ grid-column: 1 / -1; }
-    #pharmacieTable thead th{ font-size:14px }
+    /* Pharmacie et Ambu Garde : styles lisibles */
+    #pharmacieTable thead th, #ambulanceGardeTable thead th{ font-size:14px }
     #pharmacieTable .pharm-nom input{ font-size:16px; font-weight:800; }
     #pharmacieTable .pharm-addr textarea{ min-height:56px; font-size:14px; line-height:1.35; resize:vertical; }
     #pharmacieTable .pharm-dect input{ font-weight:700; letter-spacing:.3px; }
 
-/* —— Fix lisibilité “Infos fixes (rappels)” —— */
-
-/* Libellés (colonne de gauche) : texte clair + léger relief */
-.td-left{
-  color:#cbd5e1;           /* plus clair */
-  font-weight:600;
-  text-shadow:0 1px 0 rgba(0,0,0,.35);
+/* Agrandir tous les menus déroulants du site liste déroulante */
+select { 
+  font-size: 19px;       /* Mets 18px, 20px si tu veux plus grand */
+  line-height: 1.3;
+  padding: 10px 12px;
 }
 
-/* Pastilles numéro / DECT : un peu plus petites + meilleur relief */
-.tag{
-  font-size:1.1rem;        /* au lieu de 1.2rem */
-  padding:4px 10px;        /* plus compact = plus net */
-  color:#fff;
-  background:#1e40af;      /* bleu lisible */
-  border:1px solid rgba(255,255,255,.18);
-  border-radius:10px;
-  box-shadow: inset 0 -2px 0 rgba(0,0,0,.25);
+/* Taille des éléments de la liste (selon le navigateur) */
+select option,
+select optgroup { 
+  font-size: 16px;
 }
 
-/* Optionnel : couleurs différentes J / N (si tu ajoutes les classes .j et .n) */
-.tag.j{ background:#2563eb; }
-.tag.n{ background:#dc2626; }
+/* === Agrandissement général des textes saisis nom de médecins ide ect... === */
 
-/* Si tu gardes deux <span> sans classes, colore automatiquement 1er=J, 2e=N */
-td .tag:nth-child(1){ background:#2563eb; }
-td .tag:nth-child(2){ background:#dc2626; }
-.footer {
+/* Tous les champs de saisie (nom, DECT, recherche, etc.) */
+input[type="text"],
+input[list],
+textarea {
+  font-size: 17px;        /* Tu peux mettre 18px ou 20px si tu veux plus grand */
+  padding: 10px 12px;
+}
+
+/* Tous les menus déroulants */
+select {
+  font-size: 17px;
+  padding: 10px 12px;
+}
+
+/* Les options dans les menus (selon le navigateur) */
+select option,
+select optgroup {
+  font-size: 17px;
+}
+
+/* === Amélioration de la lisibilité des étiquettes de service Infos fixes (rappels) === */
+.td-left {
+  font-size: 18px;          /* 🔹 taille du texte des services */
+  font-weight: 700;         /* 🔹 gras pour une meilleure lecture */
+  color: #f1f5f9;           /* 🔹 blanc lisible sur fond sombre */
+  letter-spacing: 0.5px;    /* 🔹 aération du texte */
+  text-shadow: 0 1px 1px rgba(0,0,0,0.3); /* 🔹 léger relief pour contraste */
+  padding-right: 10px;
+}
+
+/* === Agrandir le texte des services dans le tableau Médecins === */
+#medecinsTable td select.service-select {
+  font-size: 66px;        /* 🔹 augmente la taille (mets 18px si tu veux encore plus grand) */
+  font-weight: 600;       /* 🔹 un peu plus gras pour la lisibilité */
+  padding: 8px 10px;      /* 🔹 plus d’espace intérieur */
+  color: #f1f5f9;         /* 🔹 texte clair sur fond sombre */
+  background: rgba(255,255,255,0.05); /* 🔹 fond léger */
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 6px;
+}
+
+
+
+
+
+
+
+/* === Style personnalisé pour le tableau des ambulance de garde  === */
+#ambulanceGardeTable {
+  background: rgba(0, 50, 120, 0.25); /* 🔹 fond bleu nuit transparent */
+  border-radius: 10px;
+  padding: 10px;
+}
+
+#ambulanceGardeTable th {
+  background: rgba(0, 80, 160, 0.4);
+  color: #fff;
+}
+
+#ambulanceGardeTable select,
+#ambulanceGardeTable input {
+  background: rgba(255,255,255,0.08);
+  color: #f1f5f9;
+  font-weight: 600;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 6px;
+}
+
+/* Rouge pour les badges N1 / N2 (régulateurs nuit) */
+#regulateurNuitTable .reg-badge{
+  color: #ef4444;          /* texte rouge vif */
+  font-weight: 800;
+}
+
+/* (Optionnel) pastille rouge avec fond */
+#regulateurNuitTable .reg-badge.pill,
+#regulateurNuitTable .reg-badge.pastille{
+  color: #fff;
+  background: #dc2626;
+  border: 1px solid rgba(255,255,255,.2);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+
+/* Agrandir l’étiquette Service (table Médecins) */
+#medecinTable .service-badge{
+  font-size: 18px;          /* ← augmente si tu veux (20px, 22px…) */
+  font-weight: 700;
+  padding: 6px 12px;        /* étiquette plus grande */
+  border-radius: 10px;
+  display: inline-block;    /* pour que padding/arrondi s’appliquent bien */
+  min-width: 160px;         /* largeur mini pour une belle pastille */
   text-align: center;
-  color: #9ca3af;
-  font-size: 14px;
-  padding: 15px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  margin-top: 30px;
-  font-weight: 500;
-  background: rgba(255, 255, 255, 0.02);
+
+  /* style visuel (optionnel) */
+  background: rgba(99,102,241,.22);
+  border: 1px solid rgba(99,102,241,.45);
+  color: #fff;
 }
-/* === Date du bandeau === */
-#date {
-  font-size: 1.4rem;         /* 🔹 un peu plus grand */
-  font-weight: 600;          /* 🔹 légèrement en gras */
-  color: #f1f5f9;            /* 🔹 blanc doux lisible sur fond sombre */
-  letter-spacing: 0.5px;     /* 🔹 espace un peu les lettres */
+
+/* (Déjà fait mais on remet pour réduire l’espace des DECT) */
+#medecinTable td { padding: 6px 8px; }
+#medecinTable input[type="text"]{
+  width: 120px;             /* ajuste 100–140px selon ton besoin */
+  font-size: 16px;
+  font-weight: 600;
   text-align: center;
-margin-right: 0;
-  margin-top: 5px;
-  margin-right: 20px;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.4); /* petit effet de relief */
 }
+
+
   </style>
 </head>
 <body>
@@ -178,89 +252,77 @@ margin-right: 0;
       <table>
         <thead><tr><th>Libellé</th><th>Numéro / DECT</th></tr></thead>
         <tbody>
-         <tbody>
-  <tr><td class="td-left">IOA jour</td><td><span class="tag">7658</span></td></tr>
-  <tr><td class="td-left">Cardiologie</td><td><span class="tag">12703</span></td></tr>
-  <tr><td class="td-left">Neuro-Vasculaire</td><td><span class="tag">12676</span></td></tr>
-  <tr><td class="td-left">Pédiatrie</td><td><span class="tag">7665</span></td></tr>
-  <tr><td class="td-left">Radio / IRM</td><td><span class="tag">—</span></td></tr>
+          <tr><td class="td-left">IOA jour</td><td><span class="tag">7658</span></td></tr>
+          <tr><td class="td-left">Cardiologie</td><td><span class="tag">12703</span></td></tr>
+          <tr><td class="td-left">Neuro-Vasculaire</td><td><span class="tag">12676</span></td></tr>
+          <tr><td class="td-left">Pédiatrie</td><td><span class="tag">7665</span></td></tr>
+          <tr><td class="td-left">Radio / IRM</td><td><span class="tag">—</span></td></tr>
 
-  <!-- Titre SMUR PRIMAIRE -->
-  <tr class="title-row"><th colspan="2">⬇️ SMUR PRIMAIRE</th></tr>
-  <tr><td class="td-left">Médecin Primaire</td>
-      <td><span class="tag">J 7578</span><span class="tag" style="margin-left:6px">N 7579</span></td></tr>
-  <tr><td class="td-left">IDE Primaire 7h-19h / 19h-7h</td>
-      <td><span class="tag">J 7572</span><span class="tag" style="margin-left:6px">N 7573</span></td></tr>
-  <tr><td class="td-left">Ambulancier Primaire</td>
-      <td><span class="tag">J 7570</span><span class="tag" style="margin-left:6px">N 7571</span></td></tr>
+          <tr class="title-row"><th colspan="2" style="text-align:left;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:10px;color:#dbeafe;padding:8px 10px;">⬇️ SMUR PRIMAIRE</th></tr>
+          <tr><td class="td-left">Médecin Primaire</td><td><span class="tag j">J 7578</span><span class="tag n">N 7579</span></td></tr>
+          <tr><td class="td-left">IDE Primaire</td><td><span class="tag j">J 7572</span><span class="tag n">N 7573</span></td></tr>
+          <tr><td class="td-left">Ambulancier Primaire</td><td><span class="tag j">J 7570</span><span class="tag n">N 7571</span></td></tr>
 
-  <!-- Titre SMUR SECONDAIRE -->
-  <tr class="title-row"><th colspan="2">⬇️ SMUR SECONDAIRE</th></tr>
-  <tr><td class="td-left">Médecin Secondaire</td>
-      <td><span class="tag">J 7580</span><span class="tag" style="margin-left:6px">N 7581</span></td></tr>
-  <tr><td class="td-left">IDE Secondaire 9h-21h / 21h-9h</td>
-      <td><span class="tag">J 7576</span><span class="tag" style="margin-left:6px">N 7577</span></td></tr>
-  <tr><td class="td-left">Ambulancier Secondaire</td>
-      <td><span class="tag">J 7574</span><span class="tag" style="margin-left:6px">N 7575</span></td></tr>
-</tbody>
-
-
+          <tr class="title-row"><th colspan="2" style="text-align:left;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:10px;color:#dbeafe;padding:8px 10px;">⬇️ SMUR SECONDAIRE</th></tr>
+          <tr><td class="td-left">Médecin Secondaire</td><td><span class="tag j">J 7580</span><span class="tag n">N 7581</span></td></tr>
+          <tr><td class="td-left">IDE Secondaire 9h-21h</td><td><span class="tag j">J 7576</span><span class="tag n">N 7577</span></td></tr>
+          <tr><td class="td-left">Ambulancier Secondaire</td><td><span class="tag j">J 7574</span><span class="tag n">N 7575</span></td></tr>
         </tbody>
       </table>
     </div>
 
-    <!-- ZONE DROITE EN 2 COLONNES -->
-    <div class="right-grid">
-      <div class="board">
-        <div class="section-header">SMUR Primaire</div>
-        <table id="smurPrimaireTable">
-          <thead><tr><th>Nom</th><th>DECT</th><th>Action</th></tr></thead>
-          <tbody>
-            <tr>
-              <td><input type="text" placeholder="Nom"></td>
-              <td><input type="text" placeholder="DECT"></td>
-              <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="actions"><button onclick="addRow(this)">Ajouter une ligne</button></div>
+    <!-- COLONNE DROITE (haut) : SMUR + Régulateurs -->
+    <div>
+      <div class="right-grid">
+        <div class="board">
+          <div class="section-header">SMUR Primaire</div>
+          <table id="smurPrimaireTable">
+            <thead><tr><th>Nom</th><th>DECT</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><input type="text" placeholder="Nom"></td>
+                <td><input type="text" placeholder="DECT"></td>
+                <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="actions"><button onclick="addRow(this)">Ajouter une ligne</button></div>
+        </div>
+
+        <div class="board">
+          <div class="section-header">SMUR Secondaire</div>
+          <table id="smurSecondaireTable">
+            <thead><tr><th>Nom</th><th>DECT</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><input type="text" placeholder="Nom"></td>
+                <td><input type="text" placeholder="DECT"></td>
+                <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="actions"><button onclick="addRow(this)">Ajouter une ligne</button></div>
+        </div>
+
+        <div class="board">
+          <div class="section-header">Régulateur — Jour</div>
+          <table id="regulateurJourTable">
+            <thead><tr><th style="text-align:left;width:72px"></th><th>Nom</th><th>DECT</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <div class="board">
+          <div class="section-header">Régulateur — Nuit</div>
+          <table id="regulateurNuitTable">
+            <thead><tr><th style="text-align:left;width:72px"></th><th>Nom</th><th>DECT</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
       </div>
 
-      <div class="board">
-        <div class="section-header">SMUR Secondaire</div>
-        <table id="smurSecondaireTable">
-          <thead><tr><th>Nom</th><th>DECT</th><th>Action</th></tr></thead>
-          <tbody>
-            <tr>
-              <td><input type="text" placeholder="Nom"></td>
-              <td><input type="text" placeholder="DECT"></td>
-              <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="actions"><button onclick="addRow(this)">Ajouter une ligne</button></div>
-      </div>
-
-      <!-- Régulateur — Jour -->
-      <div class="board">
-        <div class="section-header">Régulateur — Jour</div>
-        <table id="regulateurJourTable">
-          <thead><tr><th style="text-align:left;width:72px"></th><th>Nom</th><th>DECT</th></tr></thead>
-          <tbody></tbody>
-        </table>
-      </div>
-
-      <!-- Régulateur — Nuit -->
-      <div class="board">
-        <div class="section-header">Régulateur — Nuit</div>
-        <table id="regulateurNuitTable">
-          <thead><tr><th style="text-align:left;width:72px"></th><th>Nom</th><th>DECT</th></tr></thead>
-          <tbody></tbody>
-        </table>
-      </div>
-
-      <!-- Ambulance de Garde (fixes) -->
-      <div class="board">
+      <!-- 🚑 Ambulance de Garde — pleine largeur sous régulateurs -->
+      <div class="board full-width" style="margin-top:12px">
         <div class="section-header">Ambulance de Garde</div>
         <table id="ambulanceGardeTable">
           <thead>
@@ -274,42 +336,81 @@ margin-right: 0;
         </table>
       </div>
 
-      <!-- Ambulance de Sortie + Ambulance de GHT -->
-      <div class="board">
-        <div class="section-header">Ambulance de Sortie</div>
-        <table id="ambulanceSortieTable">
-          <thead><tr><th>Nom</th><th>DECT</th><th>Action</th></tr></thead>
-          <tbody>
-            <tr>
-              <td><select></select></td>
-              <td><input type="text" placeholder="DECT"></td>
-              <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="actions" style="margin-bottom:14px">
-          <button onclick="addRowTo('ambulanceSortieTable')">Ajouter une ligne</button>
+      <!-- Bas de colonne droite : 4 tableaux restants -->
+      <div class="lower-grid">
+        <!-- MRL (désormais dynamique) -->
+        <div class="board">
+          <div class="section-header">Médecin Régulateur Libéral 15B</div>
+          <table id="regulLiberalTable">
+            <thead><tr><th>Médecin</th><th>DECT</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><select class="mrl-nom"></select></td>
+                <td><input class="mrl-dect" type="text" placeholder="DECT" /></td>
+                <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
+              </tr>
+              <tr>
+                <td><select class="mrl-nom"></select></td>
+                <td><input class="mrl-dect" type="text" placeholder="DECT" /></td>
+                <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="actions"><button onclick="addRowTo('regulLiberalTable')">Ajouter un médecin libéral</button></div>
         </div>
 
-        <div class="section-header" style="margin-top:0">Ambulance de GHT</div>
-        <table id="ambulanceGHTTable">
-          <thead><tr><th>Nom</th><th>DECT</th><th>Action</th></tr></thead>
-          <tbody>
-            <tr>
-              <td><select></select></td>
-              <td><input type="text" placeholder="DECT"></td>
-              <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="actions">
-          <button onclick="addRowTo('ambulanceGHTTable')">Ajouter une ligne</button>
+        <!-- Administrateur de Garde (datalist) -->
+        <div class="board">
+          <div class="section-header">Administrateur de Garde</div>
+          <table id="administrateurTable">
+            <thead><tr><th>Nom</th><th>DECT</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><input class="admin-nom" list="adminsList" placeholder="Commencez à taper…"/></td>
+                <td><input class="admin-dect" type="text" placeholder="DECT" /></td>
+                <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="actions"><button onclick="addRowTo('administrateurTable')">Ajouter une ligne</button></div>
+        </div>
+
+        <!-- Ambulance de Sortie -->
+        <div class="board">
+          <div class="section-header">Ambulance de Sortie</div>
+          <table id="ambulanceSortieTable">
+            <thead><tr><th>Nom</th><th>DECT</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><select></select></td>
+                <td><input type="text" placeholder="DECT"></td>
+                <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="actions"><button onclick="addRowTo('ambulanceSortieTable')">Ajouter une ligne</button></div>
+        </div>
+
+        <!-- Ambulance de GHT -->
+        <div class="board">
+          <div class="section-header">Ambulance de GHT</div>
+          <table id="ambulanceGHTTable">
+            <thead><tr><th>Nom</th><th>DECT</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><select></select></td>
+                <td><input type="text" placeholder="DECT"></td>
+                <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="actions"><button onclick="addRowTo('ambulanceGHTTable')">Ajouter une ligne</button></div>
         </div>
       </div>
     </div>
 
-    <!-- ===== Pharmacie de Garde — PLEIN LARGEUR SOUS LA GRILLE ===== -->
-    <div class="card full-width">
+    <!-- ===== Pharmacie de Garde — PLEIN LARGEUR ===== -->
+    <div class="card full-width" style="margin-top:12px">
       <div class="section-header">Pharmacie de Garde</div>
       <table id="pharmacieTable">
         <thead>
@@ -334,7 +435,7 @@ margin-right: 0;
   </div>
   <!-- ======== /GRILLE ======== -->
 
-  <!-- Datalists -->
+  <!-- LISTES de suggestions -->
   <datalist id="medecinsList">
     <!-- Réa -->
     <option value="Dr Vaz"><option value="Dr Hamizi"><option value="Dr Kinda">
@@ -355,23 +456,21 @@ margin-right: 0;
     <option value="Dr Ikomba"><option value="Dr Tresor"><option value="Dr Benhocine">
     <option value="Dr Toronga"><option value="Dr Mvogo"><option value="Dr Taylor">
     <option value="Dr Chatue"><option value="Dr Torona">
-    <!-- Radiologues/IRM -->
+    <!-- Radio/IRM -->
     <option value="Dr Bello"><option value="Dr Chawa"><option value="Dr IMADI">
     <option value="Dr Gnonwa"><option value="Dr Coatrieux"><option value="Dr Bouchibane">
     <option value="Dr Adjimabou"><option value="Dr Soumo"><option value="Dr Didenjou">
   </datalist>
 
-  <datalist id="regulateursList">
-    <option value="Dr Agbessi 7886"><option value="Dr Arar 8216"><option value="Dr Belghalem">
-    <option value="Dr Campet"><option value="Dr Carlos 6497"><option value="Dr Chereau">
-    <option value="Dr Chomono"><option value="Dr Cochonneau 7895"><option value="Dr Dechery 7309">
-    <option value="Dr Dorion 7313"><option value="Dr Gonzales de Linares"><option value="Dr Hibon Ricard">
-    <option value="Dr Labbens 7350"><option value="Dr Mazuir 7366"><option value="Dr Meyer 6412">
-    <option value="Dr Michel"><option value="Dr Mirat"><option value="Dr Nasalan 7320"><option value="Dr Nuskovski">
-    <option value="Dr Paris"><option value="Dr Rabec"><option value="Dr Shehata"><option value="Dr Santiago"><option value="Dr Sokpoh">
+  <datalist id="adminsList">
+    <option value="Apert Mme"><option value="Aulibert Mme"><option value="Benoist M.">
+    <option value="Descouts Mme"><option value="Dhorbait Mme"><option value="Fauquembergue M.">
+    <option value="Halin M."><option value="Hunault M."><option value="Le Heiget M.">
+    <option value="Le tarnec Mme"><option value="Mahut M."><option value="Mercier M.">
+    <option value="Osten Mme"><option value="Paoletti - Bes Mme"><option value="Perier Mme">
+    <option value="Tomatis Mme"><option value="Vigneron Mme"><option value="Vo Dinh M.">
   </datalist>
 
-  <!-- App + Realtime Database -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
@@ -391,11 +490,11 @@ margin-right: 0;
     const db  = getDatabase(app);
 
     /* === Listes fixes === */
-    const VEHICULES_GARDE = ["B1","B2","B3","VZ","St amd","Nord","Est"];  // Ambulance de garde
+    const VEHICULES_GARDE = ["B1","B2","B3","VZ","St amand","Nord","Est"];
     const REGULATEURS_JOUR = ["R1","R2"];
     const REGULATEURS_NUIT = ["N1","N2"];
+    const MRL_OPTIONS = ["Dr Dion","Dr Masset","Dr Saudeau","Dr Lestrade","Dr Plisson","Dr Bergeret"];
 
-    /* === Options des ambulances === */
     function renderAmbuOptions(selected) {
       return `
         <option ${selected==="2000"?'selected':''}>2000</option>
@@ -438,8 +537,7 @@ margin-right: 0;
         </optgroup>
       `;
     }
-
-    /* === Options des régulateurs === */
+    const renderMRLOptions = (selected)=> MRL_OPTIONS.map(n=>`<option ${selected===n?'selected':''}>${n}</option>`).join('');
     function renderRegOptions(selected){
       const list = [
         "Dr Agbessi 7886","Dr Arar 8216","Dr Belghalem","Dr Campet","Dr Carlos 6497","Dr Chereau",
@@ -460,7 +558,7 @@ margin-right: 0;
     const dataRef = () => ref(db, `tableauGarde/${currentKey}`);
     const setSaving = (b)=>{ if(b){syncDot.className='dot saving';syncText.textContent='Sauvegarde…';}else{syncDot.className='dot online';syncText.textContent='Synchronisé';lastSaved.textContent=`• ${new Date().toLocaleTimeString('fr-FR')}`;} };
 
-    // Mapping nom -> service (médecins)
+    // Nom -> service
     const serviceMap = {
       "Dr Vaz":"Réanimation","Dr Hamizi":"Réanimation","Dr Kinda":"Réanimation","Dr Voellmy":"Réanimation",
       "Dr Njatomalala":"Réanimation","Dr Chabbi":"Réanimation","Dr Mortreux":"Réanimation","Dr Chedjieu":"Réanimation","Dr Rey":"Réanimation",
@@ -468,9 +566,9 @@ margin-right: 0;
       "Dr Didot":"Cardio","Dr Brathier":"Cardio","Dr Dechery":"Cardio","Dr Tabat":"Cardio","Dr Lounthone":"Cardio","Dr El Idrisse":"Cardio",
       "Dr Lemrini":"Cardio","Dr Seaux":"Cardio","Dr Athmani":"Cardio","Dr Chesnoy":"Cardio",
       "Dr Maiga":"Neuro-vasc","Dr Phan":"Neuro-vasc","Dr Chabbine":"Neuro-vasc","Dr Profiroiu":"Neuro-vasc","Dr Fanorena":"Neuro-vasc",
-      "Dr Dai Tometin":"Pédiatre","Dr Ayaz":"Pédiatre","Dr Hefteh":"Pédiatre","Dr Benzid":"Pédiatre","Dr Gaisne":"Pédiatre","Dr Gatti":"Pédiatre",
-      "Dr Ikomba":"Pédiatre","Dr Tresor":"Pédiatre","Dr Benhocine":"Pédiatre","Dr Toronga":"Pédiatre","Dr Mvogo":"Pédiatre","Dr Taylor":"Pédiatre",
-      "Dr Chatue":"Pédiatre","Dr Torona":"Pédiatre",
+      "Dr Dai Tometin":"Pédiatrie","Dr Ayaz":"Pédiatrie","Dr Hefteh":"Pédiatrie","Dr Benzid":"Pédiatrie","Dr Gaisne":"Pédiatrie","Dr Gatti":"Pédiatrie",
+      "Dr Ikomba":"Pédiatrie","Dr Tresor":"Pédiatrie","Dr Benhocine":"Pédiatrie","Dr Toronga":"Pédiatrie","Dr Mvogo":"Pédiatrie","Dr Taylor":"Pédiatrie",
+      "Dr Chatue":"Pédiatrie","Dr Torona":"Pédiatrie",
       "Dr Bello":"Radiologie","Dr Chawa":"Radiologie","Dr IMADI":"Radiologie","Dr Gnonwa":"Radiologie","Dr Coatrieux":"Radiologie",
       "Dr Bouchibane":"Radiologie","Dr Adjimabou":"Radiologie","Dr Soumo":"Radiologie","Dr Didenjou":"Radiologie"
     };
@@ -512,6 +610,14 @@ margin-right: 0;
             dect: tr.querySelector('.rn-dect')?.value || ''
           }));
         })(),
+        regulLiberal: readTableRows('regulLiberalTable', (tr) => ({
+          nom: tr.querySelector('.mrl-nom')?.value || '',
+          dect: tr.querySelector('.mrl-dect')?.value || ''
+        })),
+        administrateur: readTableRows('administrateurTable', (tr) => ({
+          nom: tr.querySelector('.admin-nom')?.value || '',
+          dect: tr.querySelector('.admin-dect')?.value || ''
+        })),
         ambulanceGarde: (() => {
           const tbody = document.querySelector('#ambulanceGardeTable tbody');
           return Array.from(tbody.rows).map(tr => ({
@@ -543,11 +649,6 @@ margin-right: 0;
         const tr = tbody.insertRow();
         tr.innerHTML = renderCellHtmls(row);
       });
-      if (tbody.parentElement.id === 'ambulanceSortieTable' || tbody.parentElement.id === 'ambulanceGHTTable') {
-        tbody.querySelectorAll('select').forEach(sel=>{
-          if (!sel.innerHTML.trim()) sel.innerHTML = renderAmbuOptions('');
-        });
-      }
     }
 
     function hydrateAll(data){
@@ -597,7 +698,22 @@ margin-right: 0;
         `
       );
 
-      // Ambulance de GARDE — fixes
+      // Médecin Régulateur Libéral (dynamique)
+      const mrlRows = (data.regulLiberal && data.regulLiberal.length) ? data.regulLiberal : [{},{}];
+      renderRows($('#regulLiberalTable tbody'), mrlRows, (row)=>`
+        <td><select class="mrl-nom">${renderMRLOptions(row.nom||'')}</select></td>
+        <td><input class="mrl-dect" type="text" placeholder="DECT" value="${row.dect||''}"/></td>
+        <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
+      `);
+
+      // Administrateur de Garde (datalist)
+      renderRows($('#administrateurTable tbody'), data.administrateur || [], (row)=>`
+        <td><input class="admin-nom" list="adminsList" value="${row.nom||''}" placeholder="Commencez à taper…"/></td>
+        <td><input class="admin-dect" type="text" value="${row.dect||''}" placeholder="DECT"/></td>
+        <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
+      `);
+
+      // Ambulance de GARDE — lignes fixes
       renderRows(document.querySelector('#ambulanceGardeTable tbody'),
         VEHICULES_GARDE.map(v => {
           const found = (data.ambulanceGarde || []).find(r => (r.vehicule||'') === v) || {};
@@ -605,7 +721,7 @@ margin-right: 0;
         }),
         (row) => `
           <td class="vehicule-badge">${row.vehicule}</td>
-          <td><select class="ag-nom">${renderAmbuOptions(row.nom)}</select></td>
+          <td><select class="ag-nom">${renderAmbuOptions(row.nom||'')}</select></td>
           <td><input class="ag-dect" type="text" placeholder="DECT" value="${row.dect||''}" /></td>
         `
       );
@@ -622,7 +738,7 @@ margin-right: 0;
         <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
       `);
 
-      // Pharmacie — grand tableau
+      // Pharmacie
       renderRows($('#pharmacieTable tbody'), data.pharmacie || [], (row)=>`
         <td class="pharm-nom"><input type="text" value="${row.nom||''}" placeholder="Grande Pharmacie du Centre, Pharmacie X…" /></td>
         <td class="pharm-addr"><textarea placeholder="Adresse (rue, CP, ville)">${row.adresse||''}</textarea></td>
@@ -679,36 +795,61 @@ margin-right: 0;
     // Actions génériques
     window.deleteRow = (button)=>{ button.closest('tr').remove(); scheduleSave(); }
 
-    // Ajout pour SMUR
+    // Ajout SMUR (détecte le tableau)
     window.addRow = (button)=>{
-      const wrap = button.closest('.board') || button.closest('.card');
-      const table = wrap.querySelector('tbody');
-      const tableEl = wrap.querySelector('table');
-      const tableId = tableEl ? tableEl.id : '';
-      const tr = table.insertRow();
+      const wrap = button.closest('.board'); const tbody = wrap.querySelector('tbody');
+      const tableId = wrap.querySelector('table')?.id || '';
+      const tr = tbody.insertRow();
+      tr.innerHTML = `
+        <td><input type="text" placeholder="Nom" /></td>
+        <td><input type="text" placeholder="DECT" /></td>
+        <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>`;
+      wireAutoSave(); scheduleSave();
+    }
 
-      if (tableId === 'smurPrimaireTable' || tableId === 'smurSecondaireTable'){
+    // Ajout ciblé (MRL, Admin, Ambu Sortie, GHT)
+    window.addRowTo = function(tableId){
+      const tbody = document.querySelector(`#${tableId} tbody`);
+      if (!tbody) return;
+      const tr = tbody.insertRow();
+      if (tableId === 'regulLiberalTable'){
         tr.innerHTML = `
-          <td><input type="text" placeholder="Nom" /></td>
+          <td><select class="mrl-nom">${renderMRLOptions('')}</select></td>
+          <td><input class="mrl-dect" type="text" placeholder="DECT" /></td>
+          <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>`;
+      } else if (tableId === 'administrateurTable'){
+        tr.innerHTML = `
+          <td><input class="admin-nom" list="adminsList" placeholder="Commencez à taper…"/></td>
+          <td><input class="admin-dect" type="text" placeholder="DECT" /></td>
+          <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>`;
+      } else {
+        tr.innerHTML = `
+          <td><select>${renderAmbuOptions('')}</select></td>
           <td><input type="text" placeholder="DECT" /></td>
           <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>`;
       }
       wireAutoSave(); scheduleSave();
     }
 
-    // Ajout ciblé pour Ambu Sortie / GHT
-    window.addRowTo = function(tableId){
-      const tbody = document.querySelector(`#${tableId} tbody`);
-      if (!tbody) return;
+    // Ajouter médecin
+    window.addMedecinRow = function () {
+      const tbody = document.querySelector('#medecinTable tbody');
       const tr = tbody.insertRow();
       tr.innerHTML = `
-        <td><select>${renderAmbuOptions('')}</select></td>
+        <td><input list="medecinsList" placeholder="Ex. Dr Dupont" /></td>
+        <td><span class="service-badge">—</span></td>
         <td><input type="text" placeholder="DECT" /></td>
-        <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>`;
+        <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
+      `;
+      const nameInput = tr.querySelector('input[list="medecinsList"]');
+      const badge = tr.cells[1].querySelector('.service-badge');
+      const updateService = () => { badge.textContent = inferService(nameInput.value); scheduleSave(); };
+      nameInput.addEventListener('input', updateService);
+      nameInput.addEventListener('change', updateService);
       wireAutoSave(); scheduleSave();
     }
 
-    // Pharmacie : ajouter une ligne
+    // Pharmacie : ajouter ligne
     window.addPharmacieRow = function(){
       const tbody = document.querySelector('#pharmacieTable tbody');
       const tr = tbody.insertRow();
@@ -719,41 +860,6 @@ margin-right: 0;
         <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>`;
       wireAutoSave(); scheduleSave();
     }
-// ➕ Ajouter une ligne dans le tableau "Médecins"
-window.addMedecinRow = function () {
-  const tbody = document.querySelector('#medecinTable tbody');
-  const tr = tbody.insertRow();
-  tr.innerHTML = `
-    <td><input list="medecinsList" placeholder="Ex. Dr Dupont" /></td>
-    <td><span class="service-badge">—</span></td>
-    <td><input type="text" placeholder="DECT" /></td>
-    <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
-  `;
-
-  // branchement auto-save + MAJ du service en direct
-  wireAutoSave();
-
-  // Met à jour le badge service immédiatement si un nom est déjà tapé
-  const nameInput = tr.querySelector('input[list="medecinsList"]');
-  const badge = tr.cells[1].querySelector('.service-badge');
-  const updateService = () => { badge.textContent = inferService(nameInput.value); scheduleSave(); };
-  nameInput.addEventListener('input', updateService);
-  nameInput.addEventListener('change', updateService);
-
-  scheduleSave();
-};
-    // Rendu Ambulance de Garde (fixe) au tout premier chargement
-    function renderAmbuGardeRows(tbody, data){
-      tbody.innerHTML = '';
-      VEHICULES_GARDE.forEach(v=>{
-        const found = (data || []).find(r=> (r.vehicule||'')===v) || {};
-        const tr = tbody.insertRow();
-        tr.innerHTML = `
-          <td class="vehicule-badge">${v}</td>
-          <td><select class="ag-nom">${renderAmbuOptions(found.nom||'')}</select></td>
-          <td><input class="ag-dect" type="text" placeholder="DECT" value="${found.dect||''}"/></td>`;
-      });
-    }
 
     // Boot
     document.getElementById('date').textContent =
@@ -761,18 +867,22 @@ window.addMedecinRow = function () {
 
     function firstLoad(){
       onValue(dataRef(), (snap)=>{
-        const val = snap.val() || {};
-        hydrateAll(val);
-        renderAmbuGardeRows(document.querySelector('#ambulanceGardeTable tbody'), val.ambulanceGarde);
+        hydrateAll(snap.val() || {});
+        // inject options si vide
+        document.querySelectorAll('#regulLiberalTable .mrl-nom').forEach(sel=>{ if(!sel.innerHTML.trim()) sel.innerHTML = renderMRLOptions(''); });
+        document.querySelectorAll('#ambulanceSortieTable select, #ambulanceGHTTable select, #ambulanceGardeTable .ag-nom')
+          .forEach(sel=>{ if (!sel.innerHTML.trim()) sel.innerHTML = renderAmbuOptions(''); });
         wireAutoSave();
         setSaving(false);
       }, { onlyOnce:true });
+
       loadAndListen();
     }
     firstLoad();
   </script>
-<footer class="footer">
-  © 2025 Matéo CALLEJA — Tous droits réservés
-</footer>
+
+  <footer class="footer" style="text-align:center;color:#9ca3af;font-size:14px;padding:12px 0;border-top:1px solid rgba(255,255,255,.1);margin-top:16px;background:rgba(255,255,255,.02);">
+    © 2025 Matéo CALLEJA — Tous droits réservés
+  </footer>
 </body>
 </html>
