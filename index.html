@@ -83,10 +83,16 @@
     .chat-editor input, .chat-editor textarea{ font-size:15px; padding:8px 10px; }
     .chat-editor textarea{ min-height:54px; resize:vertical; }
     .chat-list{
-      max-height:220px; overflow:auto; display:flex; flex-direction:column; gap:6px;
-      border:1px solid rgba(255,255,255,.10); border-radius:10px; padding:8px;
-      background: rgba(255,255,255,.03);
-    }
+  max-height: 520px;        /* ← augmente la zone d’affichage */
+  overflow:auto;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:10px;
+  padding:8px;
+  background: rgba(255,255,255,.03);
+}
     .chat-item{ display:grid; grid-template-columns: 1fr auto; gap:8px; align-items:start;
       background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
       border-radius:10px; padding:8px 10px; }
@@ -95,6 +101,19 @@
     .chat-del{ background:transparent; border:1px solid rgba(255,255,255,.2);
       color:#e5e7eb; padding:2px 8px; border-radius:8px; cursor:pointer; }
     .chat-del:hover{ border-color: rgba(239,68,68,.6); color:#fecaca; }
+
+/* Agrandir tous les menus déroulants du site liste déroulante */
+select { 
+  font-size: 30px;       /* Mets 18px, 20px si tu veux plus grand */
+  line-height: 1.3;
+  padding: 10px 12px;
+}
+
+/* Taille des éléments de la liste (selon le navigateur) */
+select option,
+select optgroup { 
+  font-size: 16px;
+}
   </style>
 </head>
 <body>
