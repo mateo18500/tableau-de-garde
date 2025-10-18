@@ -52,7 +52,8 @@
     .actions{display:flex; gap:6px; justify-content:center}
     .tag{ font-size:1.1rem; padding:4px 10px; color:#fff; background:#1e40af; border:1px solid rgba(255,255,255,.18); border-radius:10px; display:inline-block; margin-right:6px; }
     .tag.j{ background:#2563eb; } .tag.n{ background:#dc2626; }
-    .service-badge{display:inline-block; padding:2px 7px; border-radius:8px; font-size:12px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.06)}
+    .service-badge{display:inline-block; padding:6px 12px; border-radius:10px; font-size:18px; font-weight:700; min-width:160px; text-align:center;
+      background: rgba(99,102,241,.22); border: 1px solid rgba(99,102,241,.45); color: #fff; }
     .td-left{ text-align:left; color:#cbd5e1; font-weight:600; }
     .tight table tbody td{padding-top:6px; padding-bottom:6px}
 
@@ -64,152 +65,43 @@
     /* Pleine largeur */
     .full-width{ grid-column: 1 / -1; }
 
-    /* Badges de colonne gauche */
+    /* Badges */
     .vehicule-badge{ font-weight:800; color:#ef4444; letter-spacing:.5px; text-align:left; padding-left:8px; }
     .reg-badge{ font-weight:800; color:#22c55e; letter-spacing:.5px; text-align:left; padding-left:8px; }
+    /* NUIT rouge (N1/N2) */
+    #regulateurNuitTable .reg-badge{ color:#ef4444; }
 
-    /* Pharmacie et Ambu Garde : styles lisibles */
-    #pharmacieTable thead th, #ambulanceGardeTable thead th{ font-size:14px }
+    /* Pharmacie lisible */
+    #pharmacieTable thead th{ font-size:14px }
     #pharmacieTable .pharm-nom input{ font-size:16px; font-weight:800; }
     #pharmacieTable .pharm-addr textarea{ min-height:56px; font-size:14px; line-height:1.35; resize:vertical; }
     #pharmacieTable .pharm-dect input{ font-weight:700; letter-spacing:.3px; }
 
-/* Agrandir tous les menus déroulants du site liste déroulante */
-select { 
-  font-size: 19px;       /* Mets 18px, 20px si tu veux plus grand */
-  line-height: 1.3;
-  padding: 10px 12px;
-}
-
-/* Taille des éléments de la liste (selon le navigateur) */
-select option,
-select optgroup { 
-  font-size: 16px;
-}
-
-/* === Agrandissement général des textes saisis nom de médecins ide ect... === */
-
-/* Tous les champs de saisie (nom, DECT, recherche, etc.) */
-input[type="text"],
-input[list],
-textarea {
-  font-size: 17px;        /* Tu peux mettre 18px ou 20px si tu veux plus grand */
-  padding: 10px 12px;
-}
-
-/* Tous les menus déroulants */
-select {
-  font-size: 20px;
-  padding: 10px 12px;
-}
-
-/* Les options dans les menus (selon le navigateur) */
-select option,
-select optgroup {
-  font-size: 17px;
-}
-
-/* === Amélioration de la lisibilité des étiquettes de service Infos fixes (rappels) === */
-.td-left {
-  font-size: 18px;          /* 🔹 taille du texte des services */
-  font-weight: 700;         /* 🔹 gras pour une meilleure lecture */
-  color: #f1f5f9;           /* 🔹 blanc lisible sur fond sombre */
-  letter-spacing: 0.5px;    /* 🔹 aération du texte */
-  text-shadow: 0 1px 1px rgba(0,0,0,0.3); /* 🔹 léger relief pour contraste */
-  padding-right: 10px;
-}
-
-/* === Agrandir le texte des services dans le tableau Médecins === */
-#medecinsTable td select.service-select {
-  font-size: 66px;        /* 🔹 augmente la taille (mets 18px si tu veux encore plus grand) */
-  font-weight: 600;       /* 🔹 un peu plus gras pour la lisibilité */
-  padding: 8px 10px;      /* 🔹 plus d’espace intérieur */
-  color: #f1f5f9;         /* 🔹 texte clair sur fond sombre */
-  background: rgba(255,255,255,0.05); /* 🔹 fond léger */
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 6px;
-}
-
-
-
-
-
-
-
-/* === Style personnalisé pour le tableau des ambulance de garde  === */
-#ambulanceGardeTable {
-  background: rgba(0, 50, 120, 0.25); /* 🔹 fond bleu nuit transparent */
-  border-radius: 10px;
-  padding: 10px;
-}
-
-#ambulanceGardeTable th {
-  background: rgba(0, 80, 160, 0.4);
-  color: #fff;
-}
-
-#ambulanceGardeTable select,
-#ambulanceGardeTable input {
-  background: rgba(255,255,255,0.08);
-  color: #f1f5f9;
-  font-weight: 600;
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 6px;
-}
-
-/* Rouge pour les badges N1 / N2 (régulateurs nuit) */
-#regulateurNuitTable .reg-badge{
-  color: #ef4444;          /* texte rouge vif */
-  font-weight: 800;
-}
-
-/* (Optionnel) pastille rouge avec fond */
-#regulateurNuitTable .reg-badge.pill,
-#regulateurNuitTable .reg-badge.pastille{
-  color: #fff;
-  background: #dc2626;
-  border: 1px solid rgba(255,255,255,.2);
-  padding: 2px 8px;
-  border-radius: 10px;
-}
-
-
-/* Agrandir l’étiquette Service (table Médecins) */
-#medecinTable .service-badge{
-  font-size: 18px;          /* ← augmente si tu veux (20px, 22px…) */
-  font-weight: 700;
-  padding: 6px 12px;        /* étiquette plus grande */
-  border-radius: 10px;
-  display: inline-block;    /* pour que padding/arrondi s’appliquent bien */
-  min-width: 160px;         /* largeur mini pour une belle pastille */
-  text-align: center;
-
-  /* style visuel (optionnel) */
-  background: rgba(99,102,241,.22);
-  border: 1px solid rgba(99,102,241,.45);
-  color: #fff;
-}
-
-/* (Déjà fait mais on remet pour réduire l’espace des DECT) */
-#medecinTable td { padding: 6px 8px; }
-#medecinTable input[type="text"]{
-  width: 120px;             /* ajuste 100–140px selon ton besoin */
-  font-size: 16px;
-  font-weight: 600;
-  text-align: center;
-}
-
-
-
-
-
-
-
-
-
-
-
-
+    /* === Chat mini (dans la colonne gauche, sous “Infos fixes”) === */
+    .chat-mini { margin-top:12px; }
+    .chat-mini .section-header{ margin-bottom:6px; }
+    .chat-editor{
+      display:grid; grid-template-columns: 160px 1fr auto; gap:8px; align-items:start; margin-bottom:8px;
+    }
+    .chat-editor input, .chat-editor textarea{ font-size:15px; padding:8px 10px; }
+    .chat-editor textarea{ min-height:54px; resize:vertical; }
+    .chat-list{
+      max-height:220px; overflow:auto; display:flex; flex-direction:column; gap:6px;
+      border:1px solid rgba(255,255,255,.10); border-radius:10px; padding:8px;
+      background: rgba(255,255,255,.03);
+    }
+    .chat-item{
+      display:grid; grid-template-columns: 1fr auto; gap:8px; align-items:start;
+      background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
+      border-radius:10px; padding:8px 10px;
+    }
+    .chat-meta{ font-size:12px; color:#cbd5e1; margin-bottom:4px }
+    .chat-text{ white-space: pre-wrap; font-size:14px }
+    .chat-del{
+      background:transparent; border:1px solid rgba(255,255,255,.2);
+      color:#e5e7eb; padding:2px 8px; border-radius:8px; cursor:pointer;
+    }
+    .chat-del:hover{ border-color: rgba(239,68,68,.6); color:#fecaca; }
   </style>
 </head>
 <body>
@@ -273,17 +165,24 @@ select optgroup {
           <tr><td class="td-left">Médecin Primaire</td><td><span class="tag j">J 7578</span><span class="tag n">N 7579</span></td></tr>
           <tr><td class="td-left">IDE Primaire</td><td><span class="tag j">J 7572</span><span class="tag n">N 7573</span></td></tr>
           <tr><td class="td-left">Ambulancier Primaire</td><td><span class="tag j">J 7570</span><span class="tag n">N 7571</span></td></tr>
-          
-<tr class="title-row"><th colspan="2" style="text-align:left;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:10px;color:#dbeafe;padding:8px 10px;">⬇️ SMUR SECONDAIRE</th></tr>
+
+          <tr class="title-row"><th colspan="2" style="text-align:left;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:10px;color:#dbeafe;padding:8px 10px;">⬇️ SMUR SECONDAIRE</th></tr>
           <tr><td class="td-left">Médecin Secondaire</td><td><span class="tag j">J 7580</span><span class="tag n">N 7581</span></td></tr>
           <tr><td class="td-left">IDE Secondaire 9h-21h</td><td><span class="tag j">J 7576</span><span class="tag n">N 7577</span></td></tr>
           <tr><td class="td-left">Ambulancier Secondaire</td><td><span class="tag j">J 7574</span><span class="tag n">N 7575</span></td></tr>
-
-<tr class="title-row"><th colspan="2" style="text-align:left;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:10px;color:#dbeafe;padding:8px 10px;">⬇️ INFOS </th></tr>
-          <tr><td class="td-left">Rien à signaler </td><td><span class="tag j"></span><span class="tag n"></span></td></tr>
-        
         </tbody>
       </table>
+
+      <!-- === CHAT MINI SOUS “INFOS FIXES” === -->
+      <div class="chat-mini">
+        <div class="section-header">Chat (mini)</div>
+        <div class="chat-editor">
+          <input id="chatAuthor" type="text" placeholder="Votre nom" />
+          <textarea id="chatText" placeholder="Écrire un message (Ctrl/Cmd + Entrée pour envoyer)"></textarea>
+          <button id="chatSendBtn">Envoyer</button>
+        </div>
+        <div class="chat-list" id="chatList"></div>
+      </div>
     </div>
 
     <!-- COLONNE DROITE (haut) : SMUR + Régulateurs -->
@@ -353,9 +252,9 @@ select optgroup {
 
       <!-- Bas de colonne droite : 4 tableaux restants -->
       <div class="lower-grid">
-        <!-- MRL (désormais dynamique) -->
+        <!-- Médecin Régulateur Libéral -->
         <div class="board">
-          <div class="section-header">Médecin Régulateur Libéral 15B</div>
+          <div class="section-header">Médecin Régulateur Libéral</div>
           <table id="regulLiberalTable">
             <thead><tr><th>Médecin</th><th>DECT</th><th>Action</th></tr></thead>
             <tbody>
@@ -488,7 +387,7 @@ select optgroup {
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+    import { getDatabase, ref, set, onValue, remove, push } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyDG8Tjus5no-pJpmd3tOwydo-QY8ERhH8Y",
@@ -505,7 +404,7 @@ select optgroup {
     const db  = getDatabase(app);
 
     /* === Listes fixes === */
-    const VEHICULES_GARDE = ["B1","B2","B3","VZ","St amand","Nord","Est"];
+    const VEHICULES_GARDE = ["B1","B2","B3","VZ","St amd","Nord","Est"];
     const REGULATEURS_JOUR = ["R1","R2"];
     const REGULATEURS_NUIT = ["N1","N2"];
     const MRL_OPTIONS = ["Dr Dion","Dr Masset","Dr Saudeau","Dr Lestrade","Dr Plisson","Dr Bergeret"];
@@ -713,7 +612,7 @@ select optgroup {
         `
       );
 
-      // Médecin Régulateur Libéral (dynamique)
+      // Médecin Régulateur Libéral
       const mrlRows = (data.regulLiberal && data.regulLiberal.length) ? data.regulLiberal : [{},{}];
       renderRows($('#regulLiberalTable tbody'), mrlRows, (row)=>`
         <td><select class="mrl-nom">${renderMRLOptions(row.nom||'')}</select></td>
@@ -721,7 +620,7 @@ select optgroup {
         <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
       `);
 
-      // Administrateur de Garde (datalist)
+      // Administrateur de Garde
       renderRows($('#administrateurTable tbody'), data.administrateur || [], (row)=>`
         <td><input class="admin-nom" list="adminsList" value="${row.nom||''}" placeholder="Commencez à taper…"/></td>
         <td><input class="admin-dect" type="text" value="${row.dect||''}" placeholder="DECT"/></td>
@@ -764,7 +663,7 @@ select optgroup {
 
     /* ====== SAVE / LOAD ====== */
     let debounceTimer = null;
-    const DEBOUNCE_MS = 1200;
+    const DEBOUNCE_MS = 2000;   // délai plus long
     let skipNextUpdate = false;
 
     function scheduleSave(){ clearTimeout(debounceTimer); debounceTimer = setTimeout(saveAll, DEBOUNCE_MS); setSaving(true); }
@@ -789,7 +688,7 @@ select optgroup {
         };
         inp.oninput = update; inp.onchange = update;
       });
-      $$('input, select, textarea').forEach(el=>{ el.oninput = scheduleSave; el.onchange = scheduleSave; });
+      $$( 'input, select, textarea' ).forEach(el=>{ el.oninput = scheduleSave; el.onchange = scheduleSave; });
     }
 
     // Raccourci CTRL/CMD+S
@@ -802,6 +701,7 @@ select optgroup {
     document.getElementById('newDayBtn').addEventListener('click', ()=>{
       currentKey = todayKey(); localStorage.setItem('gardeDayKey', currentKey); dayKeyEl.textContent = currentKey;
       hydrateAll({}); saveAll(); loadAndListen();
+      wireChatUI(); loadChat(); // relancer le chat sur la nouvelle journée
     });
     document.getElementById('clearDayBtn').addEventListener('click', async ()=>{
       if (confirm('Effacer toutes les données de la journée ?')){ await remove(dataRef()); hydrateAll({}); saveAll(); }
@@ -813,7 +713,6 @@ select optgroup {
     // Ajout SMUR (détecte le tableau)
     window.addRow = (button)=>{
       const wrap = button.closest('.board'); const tbody = wrap.querySelector('tbody');
-      const tableId = wrap.querySelector('table')?.id || '';
       const tr = tbody.insertRow();
       tr.innerHTML = `
         <td><input type="text" placeholder="Nom" /></td>
@@ -876,6 +775,55 @@ select optgroup {
       wireAutoSave(); scheduleSave();
     }
 
+    /* ===== CHAT MINI (Realtime) ===== */
+    const chatRef = () => ref(db, `tableauGarde/${currentKey}/chat`);
+
+    function renderChat(listObj){
+      const cont = document.getElementById('chatList');
+      const items = Object.entries(listObj || {}).sort((a,b) => (a[1].ts||0) - (b[1].ts||0));
+      cont.innerHTML = items.map(([id, m]) => `
+        <div class="chat-item">
+          <div>
+            <div class="chat-meta"><strong>${(m.author||'Anonyme').replace(/</g,'&lt;')}</strong> • ${m.ts?new Date(m.ts).toLocaleString('fr-FR'):''}</div>
+            <div class="chat-text">${(m.text||'').replace(/</g,'&lt;')}</div>
+          </div>
+          <button class="chat-del" title="Supprimer" onclick="deleteChat('${id}')">×</button>
+        </div>
+      `).join('');
+      cont.scrollTop = cont.scrollHeight;
+    }
+
+    async function sendChat(){
+      const a = document.getElementById('chatAuthor');
+      const t = document.getElementById('chatText');
+      const author = (a.value || localStorage.getItem('chatAuthor') || '').trim();
+      const text   = (t.value || '').trim();
+      if (!text) return;
+      if (author) localStorage.setItem('chatAuthor', author);
+      await push(chatRef(), { author: author || 'Anonyme', text, ts: Date.now() });
+      t.value=''; t.focus();
+    }
+
+    window.deleteChat = async function(id){
+      await remove(ref(db, `tableauGarde/${currentKey}/chat/${id}`));
+    }
+
+    function wireChatUI(){
+      const a = document.getElementById('chatAuthor');
+      const t = document.getElementById('chatText');
+      const b = document.getElementById('chatSendBtn');
+      const saved = localStorage.getItem('chatAuthor'); if (a && saved && !a.value) a.value = saved;
+      if (b) b.onclick = sendChat;
+      if (t){
+        t.addEventListener('keydown', (e)=>{
+          if ((e.ctrlKey||e.metaKey) && e.key === 'Enter'){ e.preventDefault(); sendChat(); }
+        });
+      }
+    }
+    function loadChat(){
+      onValue(chatRef(), (snap)=> renderChat(snap.val()||{}));
+    }
+
     // Boot
     document.getElementById('date').textContent =
       new Date().toLocaleDateString('fr-FR', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
@@ -892,6 +840,8 @@ select optgroup {
       }, { onlyOnce:true });
 
       loadAndListen();
+      wireChatUI();
+      loadChat();
     }
     firstLoad();
   </script>
