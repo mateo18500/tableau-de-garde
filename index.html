@@ -76,6 +76,37 @@
     #pharmacieTable .pharm-nom input{ font-size:16px; font-weight:800; }
     #pharmacieTable .pharm-addr textarea{ min-height:56px; font-size:14px; line-height:1.35; resize:vertical; }
     #pharmacieTable .pharm-dect input{ font-weight:700; letter-spacing:.3px; }
+/* —— Fix lisibilité “Infos fixes (rappels)” —— */
+
+/* Libellés (colonne de gauche) : texte clair + léger relief */
+.td-left{
+  color:#cbd5e1;           /* plus clair */
+  font-weight:600;
+  text-shadow:0 1px 0 rgba(0,0,0,.35);
+}
+
+/* Pastilles numéro / DECT : un peu plus petites + meilleur relief */
+.tag{
+  font-size:1.1rem;        /* au lieu de 1.2rem */
+  padding:4px 10px;        /* plus compact = plus net */
+  color:#fff;
+  background:#1e40af;      /* bleu lisible */
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:10px;
+  box-shadow: inset 0 -2px 0 rgba(0,0,0,.25);
+}
+
+/* Optionnel : couleurs différentes J / N (si tu ajoutes les classes .j et .n) */
+.tag.j{ background:#2563eb; }
+.tag.n{ background:#dc2626; }
+
+/* Si tu gardes deux <span> sans classes, colore automatiquement 1er=J, 2e=N */
+td .tag:nth-child(1){ background:#2563eb; }
+td .tag:nth-child(2){ background:#dc2626; }
+
+
+
+    
   </style>
 </head>
 <body>
