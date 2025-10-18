@@ -375,13 +375,6 @@ h3.section-header {
 
 
 
-
-
-
-
-
-
-
 /* === Inverser l’ordre du chat : dernier message en haut === */
 .chat-list {
   display: flex;
@@ -399,6 +392,26 @@ h3.section-header {
 
 
 
+
+
+
+
+/* === Agrandir légèrement le bouton Envoyer du chat === */
+.chat-editor button {
+  font-size: 30px;           /* 🔹 taille du texte */
+  font-weight: 700;          /* 🔹 texte plus visible */
+  padding: 10px 18px;        /* 🔹 agrandit la zone cliquable */
+  border-radius: 8px;        /* 🔹 coins arrondis */
+  background: #2563eb;       /* 🔹 bleu lisible */
+  color: #fff;               /* 🔹 texte blanc */
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+.chat-editor button:hover {
+  background: #1d4ed8;       /* 🔹 bleu un peu plus foncé au survol */
+}
 
 
 
@@ -1169,7 +1182,7 @@ h3.section-header {
   </script>
 
   <footer class="footer" style="text-align:center;color:#9ca3af;font-size:14px;padding:12px 0;border-top:1px solid rgba(255,255,255,.1);margin-top:16px;background:rgba(255,255,255,.02);">
-    © 2025 Tableau de garde V3.1 - Matéo CALLEJA — Tous droits réservés
+    © 2025 Tableau de garde V3.2 - Matéo CALLEJA — Tous droits réservés
   </footer>
 </body>
 </html>
