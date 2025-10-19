@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tableau de Garde - Hôpital (Firebase)</title>
 <style>
-  :root { --ui-zoom: 0.80; }            /* valeur par défaut : 80% */
+  :root { --ui-zoom: 0.90; }            /* valeur par défaut : 80% */
 
   /* Chrome / Edge / Safari */
   html { zoom: var(--ui-zoom); }
@@ -243,9 +243,9 @@
 <script>
   (function () {
     // Valeur par défaut si rien en mémoire /* zoom de la page au démarrage */
-    const DEFAULT_ZOOM = 0.50;
+    const DEFAULT_ZOOM = 0.90;
 
-    // Lis un zoom mémorisé si tu veux (optionnel), sinon 0.50
+    // Lis un zoom mémorisé si tu veux (optionnel), sinon 0.90
     const saved = parseFloat(localStorage.getItem('uiZoom') || DEFAULT_ZOOM);
 
     // Applique tout de suite (évite le flash “trop grand”)
