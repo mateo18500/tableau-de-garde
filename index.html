@@ -200,6 +200,27 @@
   border-color: rgba(239,68,68,.6);
   color: #fecaca;
 }
+/* === Bouton supprimer : style pastille rouge === */
+.chat-del {
+  background: #dc2626;                 /* rouge vif */
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;                  /* forme ronde */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.chat-del:hover {
+  background: #b91c1c;                 /* rouge plus foncé au survol */
+  transform: scale(1.1);
+}
 
     /* === Taille et style des titres de section === */
     .section-header,
