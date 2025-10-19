@@ -2,8 +2,25 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=1.0, user-scalable=no">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tableau de Garde - Hôpital (Firebase)</title>
+<style>
+  :root { --ui-zoom: 0.80; }            /* valeur par défaut : 80% */
+
+  /* Chrome / Edge / Safari */
+  html { zoom: var(--ui-zoom); }
+
+  /* Firefox : fallback (Firefox ignore 'zoom') */
+  @-moz-document url-prefix() {
+    body {
+      transform: scale(var(--ui-zoom));
+      transform-origin: 0 0;
+      /* Compense la réduction pour garder la mise en page fluide */
+      width: calc(100% / var(--ui-zoom));
+    }
+  }
+</style>
   <style>
     :root{
       --bg:#0f172a; --card:#0b1226aa; --muted:#94a3b8; --text:#e2e8f0;
@@ -77,454 +94,170 @@
     #pharmacieTable .pharm-dect input{ font-weight:700; letter-spacing:.3px; }
 
     /* ===================== CHAT MINI ===================== */
-.chat-mini { margin-top:12px; }
-.chat-mini .section-header{ margin-bottom:6px; }
-.chat-editor{ display:grid; grid-template-columns: 160px 1fr auto; gap:8px; align-items:start; margin-bottom:8px; }
-.chat-editor input, .chat-editor textarea{ font-size:15px; padding:8px 10px; }
-.chat-editor textarea{ min-height:54px; resize:vertical; }
-
-.chat-list{
-  max-height: 520px;        /* zone d’affichage plus haute */
-  overflow:auto;
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-  border:1px solid rgba(255,255,255,.10);
-  border-radius:10px;
-  padding:8px;
-  background: rgba(255,255,255,.03);
-}
-.chat-item{
-  display:grid; grid-template-columns: 1fr auto; gap:8px; align-items:start;
-  background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
-  border-radius:10px; padding:10px 12px;
-}
-.chat-meta{ font-size:20px; color:#cbd5e1; margin-bottom:4px }
-.chat-text{ white-space: pre-wrap; font-size:35px; line-height:1.5 }
-.chat-del{
-  background:transparent; border:1px solid rgba(255,255,255,.2);
-  color:#e5e7eb; padding:2px 8px; border-radius:8px; cursor:pointer;
-}
-.chat-del:hover{ border-color: rgba(239,68,68,.6); color:#fecaca; }
-
-/* Saisie du chat plus grande */
-.chat-editor input,
-.chat-editor textarea{ font-size:25px; }
-
-/* ===================== LISTES DÉROULANTES (global) ===================== */
-/* Tu voulais du grand partout */
-select {
-  font-size: 30px;
-  line-height: 1.3;
-  padding: 10px 12px;
-}
-/* La taille interne des options dépend du navigateur, on force un peu */
-select option,
-select optgroup { font-size:16px; }
-
-/* ===================== MÉDECINS ===================== */
-/* Champ NOM (datalist) */
-#medecinTable input[list="medecinsList"]{
-  font-size: 30px;
-  font-weight: 700;
-  padding: 10px 12px;
-  height: 42px;
-}
-
-/* Étiquette SERVICE : centrée et grande */
-#medecinTable .service-badge{
-  display:flex; align-items:center; justify-content:center;
-  font-size:25px; font-weight:700;
-  padding:10px 14px; min-width:180px; min-height:56px;
-  background: rgba(99,102,241,.22);
-  border: 1px solid rgba(99,102,241,.45);
-  color:#fff; border-radius:10px; text-align:center;
-}
-
-/* DECT (médecins) */
-#medecinTable td input[type="text"]{
-  font-size:30px; font-weight:700; height:40px;
-}
-
-/* ===================== SMUR ===================== */
-#smurPrimaireTable td input, #smurPrimaireTable td select,
-#smurSecondaireTable td input, #smurSecondaireTable td select{
-  font-size:30px; font-weight:700; height:42px;font-weight: 300;   /* 🔹 métre en gras */
-}
-
-/* ===================== RÉGULATEURS ===================== */
-/* Tu voulais surtout grossir les DECT ; on cible leurs champs par classe */
-#regulateurJourTable .rj-dect,
-#regulateurNuitTable .rn-dect{
-  font-size:30px; font-weight:700; height:42px;
-}
-
-/* N1/N2 en rouge vif */
-#regulateurNuitTable .reg-badge{ color:#ef4444; font-weight:800; }
-/* Variante pastille si tu avais ajouté la classe .pill / .pastille */
-#regulateurNuitTable .reg-badge.pill,
-#regulateurNuitTable .reg-badge.pastille{
-  color:#fff; background:#dc2626; border:1px solid rgba(255,255,255,.2);
-  padding:2px 8px; border-radius:10px;
-}
-
-/* ===================== AMBULANCES DE GARDE ===================== */
-
-
-/* Champs de saisie : style global */
-#ambulanceGardeTable select,
-#ambulanceGardeTable input {
-  background: rgba(255, 255, 255, 0.08);
-  color: #f1f5f9;
-  font-weight: 600;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 6px;
-  padding: 2px 10px;     /* 🔹 espace intérieur du champ */
-}
-
-/* Texte plus gros pour nom et DECT + largeur ajustable */
-#ambulanceGardeTable td input[type="text"],
-#ambulanceGardeTable td select {
-  font-size: 30px;
-  font-weight: 700;
-  height: 44px;          /* 🔹 hauteur du champ */
-  width:500px;          /* 🔹 largeur du champ — augmente ou diminue selon ton besoin */
-  text-align: center;    /* 🔹 centre le texte à l’intérieur */
-font-weight: 300;   /* 🔹 métre en gras */
-}
-
-/* ===================== MRL (Médecins Régulateurs Libéraux) ===================== */
-#regulLiberalTable td input[type="text"],
-#regulLiberalTable td select{
-  font-size:25px; font-weight:700; height:42px;
-}
-
-/* ===================== ADMINISTRATEUR DE GARDE ===================== */
-#administrateurTable td input[type="text"],
-#administrateurTable td select{
-  font-size:20px; font-weight:700; height:42px;
-}
-
-
-/* ===================== AMBULANCES DYNAMIQUES (Sortie + GHT) ===================== */
-#ambulanceSortieTable td input[type="text"],
-#ambulanceSortieTable td select,
-#ambulanceGHTTable   td input[type="text"],
-#ambulanceGHTTable   td select{
-  font-size:20px; font-weight:700; height:42px;
-}
-
-
-/* === Taille et style des titres de section === */
-.section-header,
-h2.section-header,
-h3.section-header {
-  font-size: 25px;          /* 🔹 taille du titre */
-  font-weight: 800;         /* 🔹 texte bien marqué */
-  text-transform: uppercase; /* 🔹 tout en majuscules (optionnel) */
-  color: #ffffff;           /* 🔹 blanc pur pour contraste */
-  letter-spacing: 1px;      /* 🔹 aère un peu les lettres */
-  margin-bottom: 10px;
-  text-align: center;       /* 🔹 centré */
-}
-
-/* Optionnel : effet visuel de fond */
-.section-header::after {
-  content: "";
-  display: block;
-  width: 60%;
-  height: 2px;
-  background: linear-gradient(to right, #2563eb, #38bdf8);
-  margin: 6px auto 0 auto;
-  border-radius: 2px;
-}
-
-
-
-
-
-
-/* ===== INFOS FIXES (RAPPELS) — Overrides forts ===== */
-#infosFixesBlock #infosFixesTitle{
-  font-size: 30px !important;
-  font-weight: 900 !important;
-  color: #60a5fa !important;
-  text-transform: uppercase !important;
-  text-align: center !important;
-  margin-bottom: 12px !important;
-}
-
-#infosFixesBlock #infosFixesTable{
-  width: 100% !important;
-  border-collapse: collapse !important;
-  margin-top: 10px !important;
-  background: rgba(255,255,255,0.03) !important;
-  border-radius: 10px !important;
-  overflow: hidden !important;
-}
-
-/* Titres colonnes */
-#infosFixesBlock #infosFixesTable thead th{
-  font-size: 28px !important;
-  font-weight: 800 !important;
-  color: #e0f2fe !important;
-  background: rgba(255,255,255,0.08) !important;
-  padding: 14px 10px !important;
-  text-align: center !important;
-}
-
-/* Cellules */
-#infosFixesBlock #infosFixesTable tbody td{
-  font-size: 22px !important;      /* ← taille du texte des lignes ioa */
-  font-weight: 700 !important;
-  color: #ffffff !important;
-  padding: 12px 18px !important;
-  border-bottom: 1px solid rgba(255,255,255,0.08) !important;
-}
-
-/* Colonne libellé */
-#infosFixesBlock #infosFixesTable tbody td.td-left{
-  width: 280px !important;
-  text-align: left !important;
-  font-weight: 800 !important;
-}
-
-/* Pastilles DECT */
-#infosFixesBlock #infosFixesTable .tag{
-  font-size: 20px !important;      /* ← taille des numéros */
-  font-weight: 900 !important;
-  padding: 8px 14px !important;
-  background: #004aad !important;
-  color: #fff !important;
-  border-radius: 10px !important;
-  display: inline-block !important;
-  min-width: 110px !important;
-  text-align: center !important;
-  margin-right: 8px !important;
-}
-
-/* Lignes-titres (SMUR PRIMAIRE/SECONDAIRE) */
-#infosFixesBlock #infosFixesTable .title-row th{
-  background: rgba(0,0,0,0.2) !important;
-  color: #93c5fd !important;
-  font-size: 26px !important;
-  font-weight: 900 !important;
-  text-align: left !important;
-  padding: 10px 14px !important;
-}
-
-
-
-/* === PHARMACIES DE GARDE : agrandir le titre et le contenu === */
-
-/* 🔹 Titre "Pharmacies de Garde" */
-#pharmacieTableTitle,
-#pharmacieTable .section-header {
-  font-size: 28px !important;   /* Taille du titre */
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: #ffffff;
-  margin-bottom: 10px;
-}
-
-/* 🔹 Tableau pharmacies : agrandir les colonnes et les champs */
-#pharmacieTable th {
-  font-size: 20px !important;   /* en-têtes */
-  font-weight: 700;
-  color: #e2e8f0;
-  background: rgba(0, 80, 160, 0.4);
-}
-
-#pharmacieTable td {
-  font-size: 22px !important;   /* texte général */
-  padding: 10px 12px;
-  color: #f8fafc;
-}
-
-/* 🔹 Champs de saisie (nom, adresse, DECT) */
-#pharmacieTable input,
-#pharmacieTable textarea {
-  font-size: 22px !important;
-  font-weight: 600;
-  padding: 10px 12px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.08);
-  color: #f8fafc;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-/* 🔹 Zone adresse : plus haute */
-#pharmacieTable textarea {
-  min-height: 70px;
-  resize: vertical;
-}
-
-
-
-
-/* === Taille et style des pastilles B1, B2, B3, R1, R2, N1, N2 === */
-.reg-badge {
-  font-size: 34px !important;        /* 🔹 augmente la taille du texte */
-  font-weight: 300 !important;       /* 🔹 gras */
-  padding: 10px 18px !important;     /* 🔹 agrandit la pastille */
-  border-radius: 12px !important;    /* 🔹 bords arrondis */
-  display: inline-block !important;
-  text-align: center !important;
-  letter-spacing: 1px !important;
-  min-width: 80px !important;        /* 🔹 largeur mini uniforme */
-}
-
-/* Variante couleur — Régulateurs jour (R1, R2, B1, B2, etc.) */
-.reg-badge.jour {
-  background: #2563eb !important;    /* 🔹 bleu jour */
-  color: #fff !important;
-}
-
-/* Variante couleur — Régulateurs nuit (N1, N2) */
-.reg-badge.nuit {
-  background: #dc2626 !important;    /* 🔴 rouge nuit */
-  color: #fff !important;
-}
-
-
-/* === Agrandir B1, B2, B3… dans Ambulance de Garde === */
-#ambulanceGardeTable td.vehicule-badge,
-#ambulanceGardeTable .vehicule-badge {
-  font-size: 34px !important;   /* ↑ taille */
-  font-weight: 300 !important;  /* gras */
-  letter-spacing: 1px !important;
-  padding: 8px 12px !important; /* un peu d’air */
-  text-align: left !important;
-  color: #ef4444 !important;    /* rouge (comme avant) */
-}
-
-/* === Couleurs spécifiques pour les pastilles J (jour) et N (nuit) === */
-#infosFixesBlock #infosFixesTable .tag.j {
-  background: #2563eb !important;  /* 🔹 bleu jour */
-  color: #ffffff !important;
-}
-
-#infosFixesBlock #infosFixesTable .tag.n {
-  background: #dc2626 !important;  /* 🔴 rouge nuit */
-  color: #ffffff !important;
-}
-
-
-
-
-
-/* === Inverser l’ordre du chat : dernier message en haut === */
-.chat-list {
-  display: flex;
-  flex-direction: column-reverse; /* 🔹 inverse l’ordre d’affichage */
-  max-height: 520px;
-  overflow: auto;
-  gap: 6px;
-  border: 1px solid rgba(255, 255, 255, .10);
-  border-radius: 10px;
-  padding: 8px;
-  background: rgba(255, 255, 255, .03);
-}
-
-
-
-
-
-
-
-
-
-/* === Agrandir légèrement le bouton Envoyer du chat === */
-.chat-editor button {
-  font-size: 30px;           /* 🔹 taille du texte */
-  font-weight: 700;          /* 🔹 texte plus visible */
-  padding: 10px 18px;        /* 🔹 agrandit la zone cliquable */
-  border-radius: 8px;        /* 🔹 coins arrondis */
-  background: #2563eb;       /* 🔹 bleu lisible */
-  color: #fff;               /* 🔹 texte blanc */
-  border: none;
-  cursor: pointer;
-  transition: background 0.2s ease-in-out;
-}
-
-.chat-editor button:hover {
-  background: #1d4ed8;       /* 🔹 bleu un peu plus foncé au survol */
-}
-
-
-
-
-
-
-
-
-
-
-
-/* Style global des listes (datalist) */
-input[list] {
-  background: rgba(255,255,255,0.08);
-  color: #f1f5f9;
-  font-size: 26px;
-  font-weight: 700;
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 6px;
-  padding: 10px 12px;
-  width: 100%;
-}
-
-/* Focus (quand on clique) */
-input[list]:focus {
-  outline: 2px solid #60a5fa;
-}
-
-/* Placeholder clair */
-input[list]::placeholder {
-  color: rgba(255,255,255,0.4);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    .chat-mini { margin-top:12px; }
+    .chat-mini .section-header{ margin-bottom:6px; }
+    .chat-editor{ display:grid; grid-template-columns: 160px 1fr auto; gap:8px; align-items:start; margin-bottom:8px; }
+    .chat-editor input, .chat-editor textarea{ font-size:15px; padding:8px 10px; }
+    .chat-editor textarea{ min-height:54px; resize:vertical; }
+
+    .chat-list{
+      display:flex;
+      flex-direction: column-reverse; /* dernier message en haut */
+      max-height: 520px;
+      overflow:auto;
+      gap:6px;
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:10px;
+      padding:8px;
+      background: rgba(255,255,255,.03);
+    }
+    .chat-item{
+      display:grid; grid-template-columns: 1fr auto; gap:8px; align-items:start;
+      background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
+      border-radius:10px; padding:10px 12px;
+    }
+    .chat-meta{ font-size:20px; color:#cbd5e1; margin-bottom:4px }
+    .chat-text{ white-space: pre-wrap; font-size:35px; line-height:1.5 }
+    .chat-del{
+      background:transparent; border:1px solid rgba(255,255,255,.2);
+      color:#e5e7eb; padding:2px 8px; border-radius:8px; cursor:pointer;
+    }
+    .chat-del:hover{ border-color: rgba(239,68,68,.6); color:#fecaca; }
+
+    /* Saisie du chat plus grande */
+    .chat-editor input,
+    .chat-editor textarea{ font-size:25px; }
+
+    /* === Taille et style des titres de section === */
+    .section-header,
+    h2.section-header,
+    h3.section-header {
+      font-size: 25px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: #ffffff;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .section-header::after {
+      content: "";
+      display: block;
+      width: 60%;
+      height: 2px;
+      background: linear-gradient(to right, #2563eb, #38bdf8);
+      margin: 6px auto 0 auto;
+      border-radius: 2px;
+    }
+
+    /* ===== INFOS FIXES (RAPPELS) — Overrides forts ===== */
+    #infosFixesBlock #infosFixesTitle{
+      font-size: 30px !important;
+      font-weight: 900 !important;
+      color: #60a5fa !important;
+      text-transform: uppercase !important;
+      text-align: center !important;
+      margin-bottom: 12px !important;
+    }
+    #infosFixesBlock #infosFixesTable{
+      width: 100% !important;
+      border-collapse: collapse !important;
+      margin-top: 10px !important;
+      background: rgba(255,255,255,0.03) !important;
+      border-radius: 10px !important;
+      overflow: hidden !important;
+    }
+    #infosFixesBlock #infosFixesTable thead th{
+      font-size: 28px !important;
+      font-weight: 800 !important;
+      color: #e0f2fe !important;
+      background: rgba(255,255,255,0.08) !important;
+      padding: 14px 10px !important;
+      text-align: center !important;
+    }
+    #infosFixesBlock #infosFixesTable tbody td{
+      font-size: 22px !important;
+      font-weight: 700 !important;
+      color: #ffffff !important;
+      padding: 12px 18px !important;
+      border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+    }
+    #infosFixesBlock #infosFixesTable tbody td.td-left{
+      width: 280px !important; text-align: left !important; font-weight: 800 !important;
+    }
+    #infosFixesBlock #infosFixesTable .tag{
+      font-size: 20px !important; font-weight: 900 !important; padding: 8px 14px !important;
+      background: #004aad !important; color: #fff !important; border-radius: 10px !important;
+      display: inline-block !important; min-width: 110px !important; text-align: center !important; margin-right: 8px !important;
+    }
+    #infosFixesBlock #infosFixesTable .title-row th{
+      background: rgba(0,0,0,0.2) !important; color: #93c5fd !important; font-size: 26px !important; font-weight: 900 !important;
+      text-align: left !important; padding: 10px 14px !important;
+    }
+    /* Pastilles J/N */
+    #infosFixesBlock #infosFixesTable .tag.j { background:#2563eb !important; color:#fff !important; }
+    #infosFixesBlock #infosFixesTable .tag.n { background:#dc2626 !important; color:#fff !important; }
+
+    /* === Médecins (entrées plus grandes) === */
+    #medecinTable input[list="medecinsList"]{ font-size: 30px; font-weight: 700; padding: 10px 12px; height: 42px; }
+    #medecinTable .service-badge{ display:flex; align-items:center; justify-content:center; font-size:25px; font-weight:700; padding:10px 14px; min-width:180px; min-height:56px; }
+    #medecinTable td input[type="text"]{ font-size:30px; font-weight:700; height:40px; }
+
+    /* === SMUR (entrées plus grandes) === */
+    #smurPrimaireTable td input, #smurSecondaireTable td input{ font-size:30px; font-weight:700; height:42px; }
+
+    /* === Régulateurs : agrandir DECT === */
+    #regulateurJourTable .rj-dect, #regulateurNuitTable .rn-dect{ font-size:30px; font-weight:700; height:42px; }
+    /* N1/N2 rouge vif */
+    #regulateurNuitTable .reg-badge{ color:#ef4444; font-weight:800; }
+
+    /* === Ambulance de Garde (entrée large, texte centré) === */
+    #ambulanceGardeTable td input[type="text"], #ambulanceGardeTable td input[list]{
+      font-size: 30px; font-weight:700; height:44px; text-align:center;
+    }
+    /* Pastilles B1, B2, B3… plus grandes */
+    #ambulanceGardeTable .vehicule-badge{ font-size: 34px !important; font-weight: 800 !important; letter-spacing:1px; color:#ef4444; }
+
+    /* === Généraux pour les champs à suggestions (datalist) === */
+    input[list]{
+      background: rgba(255,255,255,0.08);
+      color: #f1f5f9;
+      font-size: 26px;
+      font-weight: 700;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 6px;
+      padding: 10px 12px;
+      width: 100%;
+    }
+    input[list]:focus{ outline: 2px solid #60a5fa; }
+    input[list]::placeholder{ color: rgba(255,255,255,0.45); }
+
+    /* Champs DECT un peu plus courts + centrés */
+    input.dect-field{ width: 300px; text-align:center; }
+
+    /* Thème sombre pour listes natives */
+    :root{ color-scheme: dark; }
   </style>
 </head>
 <body>
+<script>
+  (function () {
+    // Valeur par défaut si rien en mémoire /* zoom de la page au démarrage */
+    const DEFAULT_ZOOM = 0.50;
+
+    // Lis un zoom mémorisé si tu veux (optionnel), sinon 0.50
+    const saved = parseFloat(localStorage.getItem('uiZoom') || DEFAULT_ZOOM);
+
+    // Applique tout de suite (évite le flash “trop grand”)
+    document.documentElement.style.setProperty('--ui-zoom', saved);
+
+    // Sécurité : réapplique après navigation depuis cache (mobile/iOS)
+    window.addEventListener('pageshow', function(){
+      const z = parseFloat(localStorage.getItem('uiZoom') || DEFAULT_ZOOM);
+      document.documentElement.style.setProperty('--ui-zoom', z);
+    });
+  })();
+</script>
   <div class="header">
     <h1>Tableau de Garde — Hôpital</h1>
     <div id="date"></div>
@@ -561,7 +294,7 @@ input[list]::placeholder {
           <tr>
             <td><input list="medecinsList" placeholder="Ex. Dr Dupont" /></td>
             <td><span class="service-badge">—</span></td>
-            <td><input type="text" placeholder="DECT"></td>
+            <td><input class="dect-field" type="text" placeholder="DECT"></td>
             <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
           </tr>
         </tbody>
@@ -570,39 +303,35 @@ input[list]::placeholder {
         <button onclick="addMedecinRow()">➕ Ajouter un médecin</button>
       </div>
 
+      <!-- ===== INFOS FIXES ===== -->
       <div id="infosFixesBlock">
-  <div id="infosFixesTitle" class="section-header" style="margin-top:12px">
-    INFOS FIXES (RAPPELS)
-  </div>
+        <div id="infosFixesTitle" class="section-header" style="margin-top:12px">INFOS FIXES (RAPPELS)</div>
+        <table id="infosFixesTable">
+          <thead>
+            <tr><th>Libellé</th><th>Numéro / DECT</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="td-left">IOA jour</td><td><span class="tag">7658</span></td></tr>
+            <tr><td class="td-left">IOA Nuit</td><td><span class="tag">7659</span></td></tr>
+            <tr><td class="td-left">Cardiologie</td><td><span class="tag">12703</span></td></tr>
+            <tr><td class="td-left">Neuro-Vasculaire</td><td><span class="tag">12676</span></td></tr>
+            <tr><td class="td-left">Pédiatrie</td><td><span class="tag">7665</span></td></tr>
+            <tr><td class="td-left">Radio / IRM</td><td><span class="tag">—</span></td></tr>
 
-  <table id="infosFixesTable">
-    <thead>
-      <tr>
-        <th>Libellé</th><th>Numéro / DECT</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td class="td-left">IOA jour</td><td><span class="tag">7658</span></td></tr>
-      <tr><td class="td-left">IOA Nuit</td><td><span class="tag">7659</span></td></tr>
-      <tr><td class="td-left">Cardiologie</td><td><span class="tag">12703</span></td></tr>
-      <tr><td class="td-left">Neuro-Vasculaire</td><td><span class="tag">12676</span></td></tr>
-      <tr><td class="td-left">Pédiatrie</td><td><span class="tag">7665</span></td></tr>
-      <tr><td class="td-left">Radio / IRM</td><td><span class="tag">—</span></td></tr>
+            <tr class="title-row"><th colspan="2">⬇️🚑 SMUR PRIMAIRE</th></tr>
+            <tr><td class="td-left">Médecin Primaire</td><td><span class="tag j">J 7578</span><span class="tag n">N 7579</span></td></tr>
+            <tr><td class="td-left">IDE Primaire</td><td><span class="tag j">J 7572</span><span class="tag n">N 7573</span></td></tr>
+            <tr><td class="td-left">Ambulancier Primaire</td><td><span class="tag j">J 7570</span><span class="tag n">N 7571</span></td></tr>
 
-      <tr class="title-row"><th colspan="2">⬇️🚑SMUR PRIMAIRE </th></tr>
-      <tr><td class="td-left">Médecin Primaire</td><td><span class="tag j">J 7578</span><span class="tag n">N 7579</span></td></tr>
-      <tr><td class="td-left">IDE Primaire</td><td><span class="tag j">J 7572</span><span class="tag n">N 7573</span></td></tr>
-      <tr><td class="td-left">Ambulancier Primaire</td><td><span class="tag j">J 7570</span><span class="tag n">N 7571</span></td></tr>
+            <tr class="title-row"><th colspan="2">⬇️🚑 SMUR SECONDAIRE</th></tr>
+            <tr><td class="td-left">Médecin Secondaire</td><td><span class="tag j">J 7580</span><span class="tag n">N 7581</span></td></tr>
+            <tr><td class="td-left">IDE Secondaire 9h-21h</td><td><span class="tag j">J 7576</span><span class="tag n">N 7577</span></td></tr>
+            <tr><td class="td-left">Ambulancier Secondaire</td><td><span class="tag j">J 7574</span><span class="tag n">N 7575</span></td></tr>
+          </tbody>
+        </table>
+      </div>
 
-      <tr class="title-row"><th colspan="2">⬇️🚑 SMUR SECONDAIRE</th></tr>
-      <tr><td class="td-left">Médecin Secondaire</td><td><span class="tag j">J 7580</span><span class="tag n">N 7581</span></td></tr>
-      <tr><td class="td-left">IDE Secondaire 9h-21h</td><td><span class="tag j">J 7576</span><span class="tag n">N 7577</span></td></tr>
-      <tr><td class="td-left">Ambulancier Secondaire</td><td><span class="tag j">J 7574</span><span class="tag n">N 7575</span></td></tr>
-    </tbody>
-  </table>
-</div>
-
-      <!-- === CHAT MINI SOUS “INFOS FIXES” === -->
+      <!-- === CHAT MINI === -->
       <div class="chat-mini">
         <div class="section-header">Chat (mini)</div>
         <div class="chat-editor">
@@ -624,7 +353,7 @@ input[list]::placeholder {
             <tbody>
               <tr>
                 <td><input type="text" placeholder="Nom"></td>
-                <td><input type="text" placeholder="DECT"></td>
+                <td><input class="dect-field" type="text" placeholder="DECT"></td>
                 <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
               </tr>
             </tbody>
@@ -639,7 +368,7 @@ input[list]::placeholder {
             <tbody>
               <tr>
                 <td><input type="text" placeholder="Nom"></td>
-                <td><input type="text" placeholder="DECT"></td>
+                <td><input class="dect-field" type="text" placeholder="DECT"></td>
                 <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
               </tr>
             </tbody>
@@ -688,13 +417,13 @@ input[list]::placeholder {
             <thead><tr><th>Médecin</th><th>DECT</th><th>Action</th></tr></thead>
             <tbody>
               <tr>
-                <td><select class="mrl-nom"></select></td>
-                <td><input class="mrl-dect" type="text" placeholder="DECT" /></td>
+                <td><input class="mrl-nom" list="regMedList" placeholder="Tapez un régulateur…"/></td>
+                <td><input class="mrl-dect dect-field" type="text" placeholder="DECT" /></td>
                 <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
               </tr>
               <tr>
-                <td><select class="mrl-nom"></select></td>
-                <td><input class="mrl-dect" type="text" placeholder="DECT" /></td>
+                <td><input class="mrl-nom" list="regMedList" placeholder="Tapez un régulateur…"/></td>
+                <td><input class="mrl-dect dect-field" type="text" placeholder="DECT" /></td>
                 <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
               </tr>
             </tbody>
@@ -710,7 +439,7 @@ input[list]::placeholder {
             <tbody>
               <tr>
                 <td><input class="admin-nom" list="adminsList" placeholder="Commencez à taper…"/></td>
-                <td><input class="admin-dect" type="text" placeholder="DECT" /></td>
+                <td><input class="admin-dect dect-field" type="text" placeholder="DECT" /></td>
                 <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
               </tr>
             </tbody>
@@ -725,8 +454,8 @@ input[list]::placeholder {
             <thead><tr><th>Nom</th><th>DECT</th><th>Action</th></tr></thead>
             <tbody>
               <tr>
-                <td><select></select></td>
-                <td><input type="text" placeholder="DECT"></td>
+                <td><input list="ambuList" placeholder="Choisir / taper une ambulance…"></td>
+                <td><input class="dect-field" type="text" placeholder="DECT"></td>
                 <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
               </tr>
             </tbody>
@@ -741,8 +470,8 @@ input[list]::placeholder {
             <thead><tr><th>Nom</th><th>DECT</th><th>Action</th></tr></thead>
             <tbody>
               <tr>
-                <td><select></select></td>
-                <td><input type="text" placeholder="DECT"></td>
+                <td><input list="ambuList" placeholder="Choisir / taper une ambulance…"></td>
+                <td><input class="dect-field" type="text" placeholder="DECT"></td>
                 <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
               </tr>
             </tbody>
@@ -768,7 +497,7 @@ input[list]::placeholder {
           <tr>
             <td class="pharm-nom"><input type="text" placeholder="Grande Pharmacie du Centre, Pharmacie X…"></td>
             <td class="pharm-addr"><textarea placeholder="12 rue de la Santé, 18000 Bourges"></textarea></td>
-            <td class="pharm-dect"><input type="text" placeholder="09 00 00 00 00"></td>
+            <td class="pharm-dect"><input class="dect-field" type="text" placeholder="09-00-00-00-00"></td>
             <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
           </tr>
         </tbody>
@@ -805,6 +534,9 @@ input[list]::placeholder {
     <option value="Dr Adjimabou"><option value="Dr Soumo"><option value="Dr Didenjou">
   </datalist>
 
+  <!-- Liste spécifique : Médecins éligibles au poste de Régulateur -->
+  <datalist id="regMedList"></datalist>
+
   <datalist id="adminsList">
     <option value="Apert Mme"><option value="Aulibert Mme"><option value="Benoist M.">
     <option value="Descouts Mme"><option value="Dhorbait Mme"><option value="Fauquembergue M.">
@@ -814,6 +546,36 @@ input[list]::placeholder {
     <option value="Tomatis Mme"><option value="Vigneron Mme"><option value="Vo Dinh M.">
   </datalist>
 
+  <!-- Ambulances (saisie assistée) -->
+  <datalist id="ambuList">
+    <option value="2000">
+    <option value="Atlas">
+    <option value="Avaricum">
+    <option value="Mazer">
+    <option value="Pinson">
+    <option value="VMA">
+    <option value="André">
+    <option value="Mehun ambulances">
+    <option value="Petitjean">
+    <option value="St Exupéry">
+    <option value="Pasquet">
+    <option value="Auger">
+    <option value="Lignières">
+    <option value="Ducreux">
+    <option value="Guillemin">
+    <option value="St Amand">
+    <option value="Beuze Préveranges">
+    <option value="Castellois">
+    <option value="Savignat">
+    <option value="Marquet">
+    <option value="JHL">
+    <option value="Millérioux">
+    <option value="Bengy">
+    <option value="Vallée de l'Aubois">
+    <option value="Autre">
+  </datalist>
+
+  <!-- ================== APP + Firebase ================== -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getDatabase, ref, set, onValue, remove, push, update } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
@@ -832,68 +594,21 @@ input[list]::placeholder {
     const app = initializeApp(firebaseConfig);
     const db  = getDatabase(app);
 
-    /* === Listes fixes === */
-    const VEHICULES_GARDE = ["B1","B2","B3","VZ","St amd","Nord","Est"];
+    // Slots régulateurs
     const REGULATEURS_JOUR = ["R1","R2"];
     const REGULATEURS_NUIT = ["N1","N2"];
-    const MRL_OPTIONS = ["Dr Dion","Dr Masset","Dr Saudeau","Dr Lestrade","Dr Plisson","Dr Bergeret","Dr Colombier"];
 
-    function renderAmbuOptions(selected) {
-      return `
-<optgroup label="Ambu Bourges">
-        <option ${selected==="2000"?'selected':''}>2000</option>
-        <option ${selected==="Atlas"?'selected':''}>Atlas</option>
-        <option ${selected==="Avaricum"?'selected':''}>Avaricum</option> 
-        <option ${selected==="Mazer"?'selected':''}>Mazer</option>
-        <option ${selected==="Pinson"?'selected':''}>Pinson</option>
-        <option ${selected==="VMA"?'selected':''}>VMA</option>
-
-        <optgroup label="Ambu Vz">
-          <option ${selected==="André"?'selected':''}>André</option>
-          <option ${selected==="Mehun ambulances"?'selected':''}>Mehun ambulances</option>
-          <option ${selected==="Petitjean"?'selected':''}>Petitjean</option>
-          <option ${selected==="St Exupéry"?'selected':''}>St Exupéry</option>
-          
-         
-          
-          <option ${selected==="Pasquet"?'selected':''}>Pasquet</option>
-          <option ${selected==="Auger"?'selected':''}>Auger</option>
-          <option ${selected==="Pasquet"?'selected':''}>Pasquet</option>
-          <option ${selected==="Autre"?'selected':''}>Dr Autre</option>
-
-<optgroup label="Ambu St Amand">
- <option ${selected==="Lignières"?'selected':''}>Lignières</option>
- <option ${selected==="Ducreux"?'selected':''}>Ducreux</option>
-<option ${selected==="Guillemin"?'selected':''}>Guillemin</option>
-<option ${selected==="St Amand"?'selected':''}>St Amand</option>
-<option ${selected==="Beuze Préveranges"?'selected':''}>Beuze Préveranges</option>
-<option ${selected==="Castellois"?'selected':''}>Castellois</option>
-<option ${selected==="Savignat"?'selected':''}>Savignat</option>
-
-<optgroup label="Ambu Nord">
- <option ${selected==="Marquet"?'selected':''}>Marquet</option>
-<option ${selected==="JHL"?'selected':''}>JHL</option>
-<option ${selected==="Marquet"?'selected':''}>Marquet</option>
- <option ${selected==="Millérioux"?'selected':''}>Millérioux</option>
-
-<optgroup label="Ambu Est">
-<option ${selected==="Bengy"?'selected':''}>Bengy</option>
-<option ${selected==="Vallée de l'Aubois"?'selected':''}>Vallée de l'Aubois</option>
-
-
-
-        </optgroup>
-      `;
-    }
-    const renderMRLOptions = (selected)=> MRL_OPTIONS.map(n=>`<option ${selected===n?'selected':''}>${n}</option>`).join('');
-    function renderRegOptions(selected){
-      const list = [
-        "Dr Agbessi 7886","Dr Arar 8216","Dr Belghalem","Dr Campet","Dr Carlos 6497","Dr Chereau",
-        "Dr Chomono","Dr Cochonneau 7895","Dr Dechery 7309","Dr Dorion 7313","Dr Gonzales de Linares",
-        "Dr Hibon Ricard","Dr Labbens 7350","Dr Mazuir 7366","Dr Meyer 6412","Dr Michel","Dr Mirat",
-        "Dr Nasalan 7320","Dr Nuskovski","Dr Paris","Dr Rabec","Dr Shehata","Dr Santiago","Dr Sokpoh"
-      ];
-      return list.map(n => `<option ${selected===n?'selected':''}>${n}</option>`).join('');
+    // Liste des médecins autorisés pour les postes de régulation
+    const REG_MEDECINS = [
+      "Dr Agbessi","Dr Arar","Dr Belghalem","Dr Campet","Dr Carlos","Dr Chereau",
+      "Dr Chomono","Dr Cochonneau","Dr Dechery","Dr Dorion","Dr Gonzales de Linares",
+      "Dr Hibon Ricard","Dr Labbens","Dr Mazuir","Dr Meyer","Dr Michel","Dr Mirat",
+      "Dr Nasalan","Dr Nuskovski","Dr Paris","Dr Rabec","Dr Shehata","Dr Santiago","Dr Sokpoh","Dr Gellert","Dr Dion"
+    ];
+    function buildRegMedDatalist(){
+      const dl = document.getElementById('regMedList');
+      if (!dl) return;
+      dl.innerHTML = REG_MEDECINS.map(n => `<option value="${n}">`).join('');
     }
 
     // Helpers
@@ -906,7 +621,7 @@ input[list]::placeholder {
     const dataRef = () => ref(db, `tableauGarde/${currentKey}`);
     const setSaving = (b)=>{ if(b){syncDot.className='dot saving';syncText.textContent='Sauvegarde…';}else{syncDot.className='dot online';syncText.textContent='Synchronisé';lastSaved.textContent=`• ${new Date().toLocaleTimeString('fr-FR')}`;} };
 
-    // Nom -> service
+    // Nom -> service (pour badge auto)
     const serviceMap = {
       "Dr Vaz":"Réanimation","Dr Hamizi":"Réanimation","Dr Kinda":"Réanimation","Dr Voellmy":"Réanimation",
       "Dr Njatomalala":"Réanimation","Dr Chabbi":"Réanimation","Dr Mortreux":"Réanimation","Dr Chedjieu":"Réanimation","Dr Rey":"Réanimation",
@@ -922,6 +637,24 @@ input[list]::placeholder {
     };
     const inferService = (name)=> serviceMap[name?.trim()] || "—";
 
+    // Masque DECT : insère un tiret toutes les 2 chiffres (ex: 76-58 ou 06-00-00-00-00)
+    function formatDect(value){
+      const digits = (value||'').replace(/\D+/g,'');
+      return digits.replace(/(\d{2})(?=\d)/g, '$1-');
+    }
+    function attachDectMask(input){
+      if (!input) return;
+      const handler = (e)=>{
+        const pos = input.selectionStart;
+        const before = input.value;
+        input.value = formatDect(input.value);
+        // repositionne grossièrement le curseur (simple, efficace)
+        const delta = input.value.length - before.length;
+        input.selectionStart = input.selectionEnd = Math.max(0, (pos||0)+delta);
+      };
+      input.addEventListener('input', handler);
+    }
+
     /* ====== SERIALIZE ====== */
     function readTableRows(tableId, mapRow){
       const tbody = document.getElementById(tableId).querySelector('tbody');
@@ -935,11 +668,11 @@ input[list]::placeholder {
           return { nom: name, service: inferService(name), dect };
         }),
         smurPrimaire: readTableRows('smurPrimaireTable', (tr) => ({
-          nom: tr.cells[0].querySelector('input, select')?.value || '',
+          nom: tr.cells[0].querySelector('input')?.value || '',
           dect: tr.cells[1].querySelector('input')?.value || ''
         })),
         smurSecondaire: readTableRows('smurSecondaireTable', (tr) => ({
-          nom: tr.cells[0].querySelector('input, select')?.value || '',
+          nom: tr.cells[0].querySelector('input')?.value || '',
           dect: tr.cells[1].querySelector('input')?.value || ''
         })),
         regulateurJour: (() => {
@@ -975,11 +708,11 @@ input[list]::placeholder {
           }));
         })(),
         ambulanceSortie: readTableRows('ambulanceSortieTable', (tr) => ({
-          nom: tr.cells[0].querySelector('select')?.value || '',
+          nom: tr.cells[0].querySelector('input[list]')?.value || '',
           dect: tr.cells[1].querySelector('input')?.value || ''
         })),
         ambulanceGHT: readTableRows('ambulanceGHTTable', (tr) => ({
-          nom: tr.cells[0].querySelector('select')?.value || '',
+          nom: tr.cells[0].querySelector('input[list]')?.value || '',
           dect: tr.cells[1].querySelector('input')?.value || ''
         })),
         pharmacie: readTableRows('pharmacieTable', (tr) => ({
@@ -991,6 +724,8 @@ input[list]::placeholder {
     }
 
     /* ====== RENDER/HYDRATE ====== */
+    const VEHICULES_GARDE = ["B1","B2","B3","VZ","St Amd","Nord","Est"];
+
     function renderRows(tbody, rows, renderCellHtmls){
       tbody.innerHTML = '';
       rows.forEach((row) => {
@@ -1006,23 +741,23 @@ input[list]::placeholder {
       renderRows($('#medecinTable tbody'), data.medecins || [], (row) => `
         <td><input list="medecinsList" value="${row.nom||''}" placeholder="Ex. Dr Dupont"/></td>
         <td><span class="service-badge">${inferService(row.nom||'')}</span></td>
-        <td><input type="text" placeholder="DECT" value="${row.dect||''}" /></td>
+        <td><input class="dect-field" type="text" placeholder="DECT" value="${row.dect||''}" /></td>
         <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
       `);
 
       // SMUR
       renderRows($('#smurPrimaireTable tbody'), data.smurPrimaire || [], (row)=>`
         <td><input type="text" placeholder="Nom" value="${row.nom||''}" /></td>
-        <td><input type="text" placeholder="DECT" value="${row.dect||''}" /></td>
+        <td><input class="dect-field" type="text" placeholder="DECT" value="${row.dect||''}" /></td>
         <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
       `);
       renderRows($('#smurSecondaireTable tbody'), data.smurSecondaire || [], (row)=>`
         <td><input type="text" placeholder="Nom" value="${row.nom||''}" /></td>
-        <td><input type="text" placeholder="DECT" value="${row.dect||''}" /></td>
+        <td><input class="dect-field" type="text" placeholder="DECT" value="${row.dect||''}" /></td>
         <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
       `);
 
-      // Régulateurs
+      // Régulateurs (NOM = liste régulateurs spécifiques)
       renderRows(document.querySelector('#regulateurJourTable tbody'),
         REGULATEURS_JOUR.map(slot => {
           const found = (data.regulateurJour || []).find(r => (r.slot||'') === slot) || {};
@@ -1030,8 +765,8 @@ input[list]::placeholder {
         }),
         (row)=>`
           <td class="reg-badge">${row.slot}</td>
-          <td><select class="rj-nom">${renderRegOptions(row.nom)}</select></td>
-          <td><input class="rj-dect" type="text" placeholder="DECT" value="${row.dect||''}"/></td>
+          <td><input class="rj-nom" list="regMedList" value="${row.nom||''}" placeholder="Tapez un régulateur…"></td>
+          <td><input class="rj-dect dect-field" type="text" placeholder="DECT" value="${row.dect||''}"/></td>
         `
       );
       renderRows(document.querySelector('#regulateurNuitTable tbody'),
@@ -1041,23 +776,23 @@ input[list]::placeholder {
         }),
         (row)=>`
           <td class="reg-badge">${row.slot}</td>
-          <td><select class="rn-nom">${renderRegOptions(row.nom)}</select></td>
-          <td><input class="rn-dect" type="text" placeholder="DECT" value="${row.dect||''}"/></td>
+          <td><input class="rn-nom" list="regMedList" value="${row.nom||''}" placeholder="Tapez un régulateur…"></td>
+          <td><input class="rn-dect dect-field" type="text" placeholder="DECT" value="${row.dect||''}"/></td>
         `
       );
 
-      // Médecin Régulateur Libéral
+      // Médecin Régulateur Libéral (2 lignes par défaut si vide)
       const mrlRows = (data.regulLiberal && data.regulLiberal.length) ? data.regulLiberal : [{},{}];
       renderRows($('#regulLiberalTable tbody'), mrlRows, (row)=>`
-        <td><select class="mrl-nom">${renderMRLOptions(row.nom||'')}</select></td>
-        <td><input class="mrl-dect" type="text" placeholder="DECT" value="${row.dect||''}"/></td>
+        <td><input class="mrl-nom" list="regMedList" value="${row.nom||''}" placeholder="Tapez un régulateur…"/></td>
+        <td><input class="mrl-dect dect-field" type="text" placeholder="DECT" value="${row.dect||''}"/></td>
         <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
       `);
 
       // Administrateur de Garde
       renderRows($('#administrateurTable tbody'), data.administrateur || [], (row)=>`
         <td><input class="admin-nom" list="adminsList" value="${row.nom||''}" placeholder="Commencez à taper…"/></td>
-        <td><input class="admin-dect" type="text" value="${row.dect||''}" placeholder="DECT"/></td>
+        <td><input class="admin-dect dect-field" type="text" value="${row.dect||''}" placeholder="DECT"/></td>
         <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
       `);
 
@@ -1069,20 +804,20 @@ input[list]::placeholder {
         }),
         (row) => `
           <td class="vehicule-badge">${row.vehicule}</td>
-          <td><select class="ag-nom">${renderAmbuOptions(row.nom||'')}</select></td>
-          <td><input class="ag-dect" type="text" placeholder="DECT" value="${row.dect||''}" /></td>
+          <td><input class="ag-nom" list="ambuList" value="${row.nom||''}" placeholder="Choisir / taper une ambulance…"></td>
+          <td><input class="ag-dect dect-field" type="text" placeholder="DECT" value="${row.dect||''}" /></td>
         `
       );
 
       // Ambulances dynamiques
       renderRows($('#ambulanceSortieTable tbody'), data.ambulanceSortie || [], (row)=>`
-        <td><select>${renderAmbuOptions(row.nom||'')}</select></td>
-        <td><input type="text" placeholder="DECT" value="${row.dect||''}" /></td>
+        <td><input list="ambuList" value="${row.nom||''}" placeholder="Choisir / taper une ambulance…"></td>
+        <td><input class="dect-field" type="text" placeholder="DECT" value="${row.dect||''}" /></td>
         <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
       `);
       renderRows($('#ambulanceGHTTable tbody'), data.ambulanceGHT || [], (row)=>`
-        <td><select>${renderAmbuOptions(row.nom||'')}</select></td>
-        <td><input type="text" placeholder="DECT" value="${row.dect||''}" /></td>
+        <td><input list="ambuList" value="${row.nom||''}" placeholder="Choisir / taper une ambulance…"></td>
+        <td><input class="dect-field" type="text" placeholder="DECT" value="${row.dect||''}" /></td>
         <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
       `);
 
@@ -1090,9 +825,12 @@ input[list]::placeholder {
       renderRows($('#pharmacieTable tbody'), data.pharmacie || [], (row)=>`
         <td class="pharm-nom"><input type="text" value="${row.nom||''}" placeholder="Grande Pharmacie du Centre, Pharmacie X…" /></td>
         <td class="pharm-addr"><textarea placeholder="Adresse (rue, CP, ville)">${row.adresse||''}</textarea></td>
-        <td class="pharm-dect"><input type="text" value="${row.dect||''}" placeholder="09 00 00 00 00" /></td>
+        <td class="pharm-dect"><input class="dect-field" type="text" value="${row.dect||''}" placeholder="09-00-00-00-00" /></td>
         <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
       `);
+
+      // (ré-attache le masque DECT à tout ce qui a la classe)
+      $$('.dect-field').forEach(attachDectMask);
     }
 
     /* ====== SAVE / LOAD ====== */
@@ -1101,15 +839,12 @@ input[list]::placeholder {
     let skipNextUpdate = false;
 
     function scheduleSave(){ clearTimeout(debounceTimer); debounceTimer = setTimeout(saveAll, DEBOUNCE_MS); setSaving(true); }
-
-    // IMPORTANT: utiliser update() pour ne PAS écraser "chat"
     async function saveAll(){
       const data = serializeAll();
       skipNextUpdate = true;
-      await update(dataRef(), data);  // ← MERGE
+      await update(dataRef(), data);  // MERGE (n’écrase pas le chat)
       setSaving(false);
     }
-
     function loadAndListen(){
       onValue(dataRef(), (snap)=>{
         if (skipNextUpdate){ skipNextUpdate = false; return; }
@@ -1129,7 +864,10 @@ input[list]::placeholder {
         };
         inp.oninput = updateSvc; inp.onchange = updateSvc;
       });
-      $$( 'input, select, textarea' ).forEach(el=>{ el.oninput = scheduleSave; el.onchange = scheduleSave; });
+      // Enregistrement différé partout
+      $$( 'input, textarea' ).forEach(el=>{ el.oninput = scheduleSave; el.onchange = scheduleSave; });
+      // Re-masque DECT si de nouvelles lignes apparaissent
+      $$('.dect-field').forEach(attachDectMask);
     }
 
     // Raccourci CTRL/CMD+S
@@ -1146,7 +884,7 @@ input[list]::placeholder {
     });
     document.getElementById('clearDayBtn').addEventListener('click', async ()=>{
       if (confirm('Effacer toutes les données de la journée ?')){
-        await remove(dataRef());       // supprime TOUT, y compris chat (logique pour "vider la journée")
+        await remove(dataRef());       // supprime TOUT, y compris chat
         hydrateAll({}); saveAll();
       }
     });
@@ -1160,8 +898,9 @@ input[list]::placeholder {
       const tr = tbody.insertRow();
       tr.innerHTML = `
         <td><input type="text" placeholder="Nom" /></td>
-        <td><input type="text" placeholder="DECT" /></td>
+        <td><input class="dect-field" type="text" placeholder="DECT" /></td>
         <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>`;
+      attachDectMask(tr.querySelector('.dect-field'));
       wireAutoSave(); scheduleSave();
     }
 
@@ -1172,20 +911,21 @@ input[list]::placeholder {
       const tr = tbody.insertRow();
       if (tableId === 'regulLiberalTable'){
         tr.innerHTML = `
-          <td><select class="mrl-nom">${renderMRLOptions('')}</select></td>
-          <td><input class="mrl-dect" type="text" placeholder="DECT" /></td>
+          <td><input class="mrl-nom" list="regMedList" placeholder="Tapez un régulateur…"/></td>
+          <td><input class="mrl-dect dect-field" type="text" placeholder="DECT" /></td>
           <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>`;
       } else if (tableId === 'administrateurTable'){
         tr.innerHTML = `
           <td><input class="admin-nom" list="adminsList" placeholder="Commencez à taper…"/></td>
-          <td><input class="admin-dect" type="text" placeholder="DECT" /></td>
+          <td><input class="admin-dect dect-field" type="text" placeholder="DECT" /></td>
           <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>`;
-      } else {
+      } else if (tableId === 'ambulanceSortieTable' || tableId === 'ambulanceGHTTable'){
         tr.innerHTML = `
-          <td><select>${renderAmbuOptions('')}</select></td>
-          <td><input type="text" placeholder="DECT" /></td>
+          <td><input list="ambuList" placeholder="Choisir / taper une ambulance…"></td>
+          <td><input class="dect-field" type="text" placeholder="DECT" /></td>
           <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>`;
       }
+      attachDectMask(tr.querySelector('.dect-field'));
       wireAutoSave(); scheduleSave();
     }
 
@@ -1196,7 +936,7 @@ input[list]::placeholder {
       tr.innerHTML = `
         <td><input list="medecinsList" placeholder="Ex. Dr Dupont" /></td>
         <td><span class="service-badge">—</span></td>
-        <td><input type="text" placeholder="DECT" /></td>
+        <td><input class="dect-field" type="text" placeholder="DECT" /></td>
         <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>
       `;
       const nameInput = tr.querySelector('input[list="medecinsList"]');
@@ -1204,6 +944,7 @@ input[list]::placeholder {
       const updateService = () => { badge.textContent = inferService(nameInput.value); scheduleSave(); };
       nameInput.addEventListener('input', updateService);
       nameInput.addEventListener('change', updateService);
+      attachDectMask(tr.querySelector('.dect-field'));
       wireAutoSave(); scheduleSave();
     }
 
@@ -1214,8 +955,9 @@ input[list]::placeholder {
       tr.innerHTML = `
         <td class="pharm-nom"><input type="text" placeholder="Grande Pharmacie du Centre, Pharmacie X…"/></td>
         <td class="pharm-addr"><textarea placeholder="Adresse (rue, CP, ville)"></textarea></td>
-        <td class="pharm-dect"><input type="text" placeholder="09 00 00 00 00"/></td>
+        <td class="pharm-dect"><input class="dect-field" type="text" placeholder="09-00-00-00-00"/></td>
         <td class="actions"><button onclick="deleteRow(this)">Supprimer</button></td>`;
+      attachDectMask(tr.querySelector('.dect-field'));
       wireAutoSave(); scheduleSave();
     }
 
@@ -1234,7 +976,6 @@ input[list]::placeholder {
           <button class="chat-del" title="Supprimer" onclick="deleteChat('${id}')">×</button>
         </div>
       `).join('');
-      cont.scrollTop = cont.scrollHeight;
     }
 
     async function sendChat(){
@@ -1273,49 +1014,21 @@ input[list]::placeholder {
       new Date().toLocaleDateString('fr-FR', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
 
     function firstLoad(){
+      buildRegMedDatalist(); // remplir la datalist des régulateurs
       onValue(dataRef(), (snap)=>{
         hydrateAll(snap.val() || {});
-        // inject options si vide
-        document.querySelectorAll('#regulLiberalTable .mrl-nom').forEach(sel=>{ if(!sel.innerHTML.trim()) sel.innerHTML = renderMRLOptions(''); });
-        document.querySelectorAll('#ambulanceSortieTable select, #ambulanceGHTTable select, #ambulanceGardeTable .ag-nom')
-          .forEach(sel=>{ if (!sel.innerHTML.trim()) sel.innerHTML = renderAmbuOptions(''); });
         wireAutoSave();
         setSaving(false);
       }, { onlyOnce:true });
 
       loadAndListen();
-      wireChatUI();
-      loadChat();
+      wireChatUI(); loadChat();
     }
     firstLoad();
   </script>
 
   <footer class="footer" style="text-align:center;color:#9ca3af;font-size:14px;padding:12px 0;border-top:1px solid rgba(255,255,255,.1);margin-top:16px;background:rgba(255,255,255,.02);">
     © 2025 Tableau de garde V3 - Matéo CALLEJA — Tous droits réservés
-
-
-
-
-<!-- 🔹 Liste des régulateurs (jour/nuit) -->
-<datalist id="regulateursList">
-  <option value="R1">
-  <option value="R2">
-  <option value="R3">
-  <option value="N1">
-  <option value="N2">
-  <option value="Remplaçant">
-</datalist>
-
-<!-- 🔹 Liste des médecins régulateurs libéraux -->
-<datalist id="medRegLibList">
-  <option value="Dr Martin">
-  <option value="Dr Dupont">
-  <option value="Dr Bernard">
-  <option value="Dr Autre">
-</datalist>
-
-
-
   </footer>
 </body>
 </html>
