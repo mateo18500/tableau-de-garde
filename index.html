@@ -149,7 +149,7 @@ select optgroup { font-size:16px; }
 /* ===================== SMUR ===================== */
 #smurPrimaireTable td input, #smurPrimaireTable td select,
 #smurSecondaireTable td input, #smurSecondaireTable td select{
-  font-size:30px; font-weight:700; height:42px;
+  font-size:30px; font-weight:700; height:42px;font-weight: 300;   /* 🔹 métre en gras */
 }
 
 /* ===================== RÉGULATEURS ===================== */
@@ -199,6 +199,7 @@ select optgroup { font-size:16px; }
   height: 44px;          /* 🔹 hauteur du champ */
   width:500px;          /* 🔹 largeur du champ — augmente ou diminue selon ton besoin */
   text-align: center;    /* 🔹 centre le texte à l’intérieur */
+font-weight: 300;   /* 🔹 métre en gras */
 }
 
 /* ===================== MRL (Médecins Régulateurs Libéraux) ===================== */
@@ -254,7 +255,7 @@ h3.section-header {
 
 /* ===== INFOS FIXES (RAPPELS) — Overrides forts ===== */
 #infosFixesBlock #infosFixesTitle{
-  font-size: 40px !important;
+  font-size: 30px !important;
   font-weight: 900 !important;
   color: #60a5fa !important;
   text-transform: uppercase !important;
@@ -283,7 +284,7 @@ h3.section-header {
 
 /* Cellules */
 #infosFixesBlock #infosFixesTable tbody td{
-  font-size: 20px !important;      /* ← taille du texte des lignes */
+  font-size: 22px !important;      /* ← taille du texte des lignes ioa */
   font-weight: 700 !important;
   color: #ffffff !important;
   padding: 12px 18px !important;
@@ -323,11 +324,71 @@ h3.section-header {
 
 
 
+/* === PHARMACIES DE GARDE : agrandir le titre et le contenu === */
+
+/* 🔹 Titre "Pharmacies de Garde" */
+#pharmacieTableTitle,
+#pharmacieTable .section-header {
+  font-size: 28px !important;   /* Taille du titre */
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+/* 🔹 Tableau pharmacies : agrandir les colonnes et les champs */
+#pharmacieTable th {
+  font-size: 20px !important;   /* en-têtes */
+  font-weight: 700;
+  color: #e2e8f0;
+  background: rgba(0, 80, 160, 0.4);
+}
+
+#pharmacieTable td {
+  font-size: 22px !important;   /* texte général */
+  padding: 10px 12px;
+  color: #f8fafc;
+}
+
+/* 🔹 Champs de saisie (nom, adresse, DECT) */
+#pharmacieTable input,
+#pharmacieTable textarea {
+  font-size: 22px !important;
+  font-weight: 600;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #f8fafc;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* 🔹 Zone adresse : plus haute */
+#pharmacieTable textarea {
+  min-height: 70px;
+  resize: vertical;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* === Taille et style des pastilles B1, B2, B3, R1, R2, N1, N2 === */
 .reg-badge {
   font-size: 34px !important;        /* 🔹 augmente la taille du texte */
-  font-weight: 900 !important;       /* 🔹 gras */
+  font-weight: 300 !important;       /* 🔹 gras */
   padding: 10px 18px !important;     /* 🔹 agrandit la pastille */
   border-radius: 12px !important;    /* 🔹 bords arrondis */
   display: inline-block !important;
@@ -353,7 +414,7 @@ h3.section-header {
 #ambulanceGardeTable td.vehicule-badge,
 #ambulanceGardeTable .vehicule-badge {
   font-size: 34px !important;   /* ↑ taille */
-  font-weight: 900 !important;  /* gras */
+  font-weight: 300 !important;  /* gras */
   letter-spacing: 1px !important;
   padding: 8px 12px !important; /* un peu d’air */
   text-align: left !important;
@@ -732,47 +793,52 @@ h3.section-header {
     const VEHICULES_GARDE = ["B1","B2","B3","VZ","St amd","Nord","Est"];
     const REGULATEURS_JOUR = ["R1","R2"];
     const REGULATEURS_NUIT = ["N1","N2"];
-    const MRL_OPTIONS = ["Dr Dion","Dr Masset","Dr Saudeau","Dr Lestrade","Dr Plisson","Dr Bergeret"];
+    const MRL_OPTIONS = ["Dr Dion","Dr Masset","Dr Saudeau","Dr Lestrade","Dr Plisson","Dr Bergeret","Dr Colombier"];
 
     function renderAmbuOptions(selected) {
       return `
+<optgroup label="Ambu Bourges">
         <option ${selected==="2000"?'selected':''}>2000</option>
         <option ${selected==="Atlas"?'selected':''}>Atlas</option>
-        <option ${selected==="Avaricum"?'selected':''}>Avaricum</option>
-        <option ${selected==="Ducreux"?'selected':''}>Ducreux</option>
-        <option ${selected==="JHL"?'selected':''}>JHL</option>
-        <option ${selected==="Marquet"?'selected':''}>Marquet</option>
+        <option ${selected==="Avaricum"?'selected':''}>Avaricum</option> 
         <option ${selected==="Mazer"?'selected':''}>Mazer</option>
-        <option ${selected==="Mehun ambulances"?'selected':''}>Mehun ambulances</option>
-        <option ${selected==="Millérioux"?'selected':''}>Millérioux</option>
         <option ${selected==="Pinson"?'selected':''}>Pinson</option>
         <option ${selected==="VMA"?'selected':''}>VMA</option>
+
         <optgroup label="Ambu Vz">
           <option ${selected==="André"?'selected':''}>André</option>
           <option ${selected==="Mehun ambulances"?'selected':''}>Mehun ambulances</option>
           <option ${selected==="Petitjean"?'selected':''}>Petitjean</option>
           <option ${selected==="St Exupéry"?'selected':''}>St Exupéry</option>
-          <option ${selected==="Beuze Prev"?'selected':''}>Beuze Prev</option>
-          <option ${selected==="Castellois"?'selected':''}>Castellois</option>
-          <option ${selected==="Ducreux"?'selected':''}>Ducreux</option>
-          <option ${selected==="Guillemin"?'selected':''}>Guillemin</option>
-          <option ${selected==="Lignières"?'selected':''}>Lignières</option>
+          
+         
+          
           <option ${selected==="Pasquet"?'selected':''}>Pasquet</option>
-          <option ${selected==="St Amand"?'selected':''}>St Amand</option>
-          <option ${selected==="Savignat"?'selected':''}>Savignat</option>
-          <option ${selected==="JHL"?'selected':''}>JHL</option>
-          <option ${selected==="Marquet"?'selected':''}>Marquet</option>
-          <option ${selected==="Millérioux"?'selected':''}>Millérioux</option>
           <option ${selected==="Auger"?'selected':''}>Auger</option>
-          <option ${selected==="Bengy"?'selected':''}>Bengy</option>
-          <option ${selected==="Vallée de l'Aubois"?'selected':''}>Vallée de l'Aubois</option>
-          <option ${selected==="Beuze Préveranges"?'selected':''}>Beuze Préveranges</option>
-          <option ${selected==="Castellois"?'selected':''}>Castellois</option>
-          <option ${selected==="Ducreux"?'selected':''}>Ducreux</option>
-          <option ${selected==="Guillemin"?'selected':''}>Guillemin</option>
-          <option ${selected==="Lignières"?'selected':''}>Lignières</option>
           <option ${selected==="Pasquet"?'selected':''}>Pasquet</option>
-          <option ${selected==="Dr Autre"?'selected':''}>Dr Autre</option>
+          <option ${selected==="Autre"?'selected':''}>Dr Autre</option>
+
+<optgroup label="Ambu St Amand">
+ <option ${selected==="Lignières"?'selected':''}>Lignières</option>
+ <option ${selected==="Ducreux"?'selected':''}>Ducreux</option>
+<option ${selected==="Guillemin"?'selected':''}>Guillemin</option>
+<option ${selected==="St Amand"?'selected':''}>St Amand</option>
+<option ${selected==="Beuze Préveranges"?'selected':''}>Beuze Préveranges</option>
+<option ${selected==="Castellois"?'selected':''}>Castellois</option>
+<option ${selected==="Savignat"?'selected':''}>Savignat</option>
+
+<optgroup label="Ambu Nord">
+ <option ${selected==="Marquet"?'selected':''}>Marquet</option>
+<option ${selected==="JHL"?'selected':''}>JHL</option>
+<option ${selected==="Marquet"?'selected':''}>Marquet</option>
+ <option ${selected==="Millérioux"?'selected':''}>Millérioux</option>
+
+<optgroup label="Ambu Est">
+<option ${selected==="Bengy"?'selected':''}>Bengy</option>
+<option ${selected==="Vallée de l'Aubois"?'selected':''}>Vallée de l'Aubois</option>
+
+
+
         </optgroup>
       `;
     }
@@ -1182,7 +1248,7 @@ h3.section-header {
   </script>
 
   <footer class="footer" style="text-align:center;color:#9ca3af;font-size:14px;padding:12px 0;border-top:1px solid rgba(255,255,255,.1);margin-top:16px;background:rgba(255,255,255,.02);">
-    © 2025 Tableau de garde V3.3 - Matéo CALLEJA — Tous droits réservés
+    © 2025 Tableau de garde V3.4 - Matéo CALLEJA — Tous droits réservés
   </footer>
 </body>
 </html>
