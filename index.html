@@ -94,39 +94,112 @@
     #pharmacieTable .pharm-dect input{ font-weight:700; letter-spacing:.3px; }
 
     /* ===================== CHAT MINI ===================== */
-    .chat-mini { margin-top:12px; }
-    .chat-mini .section-header{ margin-bottom:6px; }
-    .chat-editor{ display:grid; grid-template-columns: 160px 1fr auto; gap:8px; align-items:start; margin-bottom:8px; }
-    .chat-editor input, .chat-editor textarea{ font-size:15px; padding:8px 10px; }
-    .chat-editor textarea{ min-height:54px; resize:vertical; }
+.chat-mini { 
+  margin-top: 12px; 
+}
 
-    .chat-list{
-      display:flex;
-      flex-direction: column-reverse; /* dernier message en haut */
-      max-height: 520px;
-      overflow:auto;
-      gap:6px;
-      border:1px solid rgba(255,255,255,.10);
-      border-radius:10px;
-      padding:8px;
-      background: rgba(255,255,255,.03);
-    }
-    .chat-item{
-      display:grid; grid-template-columns: 1fr auto; gap:8px; align-items:start;
-      background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
-      border-radius:10px; padding:10px 12px;
-    }
-    .chat-meta{ font-size:20px; color:#cbd5e1; margin-bottom:4px }
-    .chat-text{ white-space: pre-wrap; font-size:35px; line-height:1.5 }
-    .chat-del{
-      background:transparent; border:1px solid rgba(255,255,255,.2);
-      color:#e5e7eb; padding:2px 8px; border-radius:8px; cursor:pointer;
-    }
-    .chat-del:hover{ border-color: rgba(239,68,68,.6); color:#fecaca; }
+.chat-mini .section-header { 
+  margin-bottom: 6px; 
+}
 
-    /* Saisie du chat plus grande */
-    .chat-editor input,
-    .chat-editor textarea{ font-size:25px; }
+/* Zone de saisie (nom + message + bouton) */
+.chat-editor {
+  display: grid;
+  grid-template-columns: 160px 1fr auto; /* Nom / Message / Bouton */
+  gap: 8px;
+  align-items: center;           /* 🔹 centre verticalement les éléments */
+  margin-bottom: 8px;
+}
+
+/* Champs de texte */
+.chat-editor input,
+.chat-editor textarea {
+  font-size: 25px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.05);
+  color: #f1f5f9;
+}
+
+.chat-editor textarea {
+  min-height: 54px;
+  resize: vertical;
+}
+
+/* Bouton Envoyer plus grand et moderne */
+.chat-editor button {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;            /* 🔹 plus grand et plus lisible */
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.chat-editor button:hover {
+  background: #1e40af;
+  transform: scale(1.05);        /* 🔹 petit effet de zoom */
+}
+
+/* Liste des messages */
+.chat-list {
+  display: flex;
+  flex-direction: column-reverse; /* 🔹 dernier message en haut */
+  max-height: 520px;
+  overflow: auto;
+  gap: 6px;
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 10px;
+  padding: 8px;
+  background: rgba(255,255,255,.03);
+}
+
+/* Message individuel */
+.chat-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: start;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+/* Métadonnées (nom + heure) */
+.chat-meta {
+  font-size: 20px;
+  color: #cbd5e1;
+  margin-bottom: 4px;
+}
+
+/* Texte du message */
+.chat-text {
+  white-space: pre-wrap;
+  font-size: 35px;
+  line-height: 1.5;
+  color: #ffffff;
+}
+
+/* Bouton de suppression */
+.chat-del {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,.2);
+  color: #e5e7eb;
+  padding: 4px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.chat-del:hover {
+  border-color: rgba(239,68,68,.6);
+  color: #fecaca;
+}
 
     /* === Taille et style des titres de section === */
     .section-header,
