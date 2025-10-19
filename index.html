@@ -169,16 +169,7 @@ select optgroup { font-size:16px; }
 }
 
 /* ===================== AMBULANCES DE GARDE ===================== */
-#ambulanceGardeTable {
-  background: rgba(0, 50, 120, 0.25);
-  border-radius: 10px;
-  padding: 10px;
-}
 
-#ambulanceGardeTable th {
-  background: rgba(0, 80, 160, 0.4);
-  color: #fff;
-}
 
 /* Champs de saisie : style global */
 #ambulanceGardeTable select,
@@ -188,7 +179,7 @@ select optgroup { font-size:16px; }
   font-weight: 600;
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 6px;
-  padding: 8px 10px;     /* 🔹 espace intérieur du champ */
+  padding: 2px 10px;     /* 🔹 espace intérieur du champ */
 }
 
 /* Texte plus gros pour nom et DECT + largeur ajustable */
@@ -372,19 +363,6 @@ h3.section-header {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* === Taille et style des pastilles B1, B2, B3, R1, R2, N1, N2 === */
 .reg-badge {
   font-size: 34px !important;        /* 🔹 augmente la taille du texte */
@@ -473,6 +451,71 @@ h3.section-header {
 .chat-editor button:hover {
   background: #1d4ed8;       /* 🔹 bleu un peu plus foncé au survol */
 }
+
+
+
+
+
+
+
+
+
+
+
+/* Style global des listes (datalist) */
+input[list] {
+  background: rgba(255,255,255,0.08);
+  color: #f1f5f9;
+  font-size: 26px;
+  font-weight: 700;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 6px;
+  padding: 10px 12px;
+  width: 100%;
+}
+
+/* Focus (quand on clique) */
+input[list]:focus {
+  outline: 2px solid #60a5fa;
+}
+
+/* Placeholder clair */
+input[list]::placeholder {
+  color: rgba(255,255,255,0.4);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1248,7 +1291,31 @@ h3.section-header {
   </script>
 
   <footer class="footer" style="text-align:center;color:#9ca3af;font-size:14px;padding:12px 0;border-top:1px solid rgba(255,255,255,.1);margin-top:16px;background:rgba(255,255,255,.02);">
-    © 2025 Tableau de garde V3.4 - Matéo CALLEJA — Tous droits réservés
+    © 2025 Tableau de garde V3 - Matéo CALLEJA — Tous droits réservés
+
+
+
+
+<!-- 🔹 Liste des régulateurs (jour/nuit) -->
+<datalist id="regulateursList">
+  <option value="R1">
+  <option value="R2">
+  <option value="R3">
+  <option value="N1">
+  <option value="N2">
+  <option value="Remplaçant">
+</datalist>
+
+<!-- 🔹 Liste des médecins régulateurs libéraux -->
+<datalist id="medRegLibList">
+  <option value="Dr Martin">
+  <option value="Dr Dupont">
+  <option value="Dr Bernard">
+  <option value="Dr Autre">
+</datalist>
+
+
+
   </footer>
 </body>
 </html>
